@@ -25,39 +25,54 @@ verifyToken = (req, res, next) => {
 
 isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
-          next();
-          return;
+    if (user) {
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          if (roles[i].name === "admin") {
+            next();
+            return;
+          }
         }
-      }
 
-      res.status(403).send({
-        message: "Require Admin Role!"
+        res.status(403).send({
+          message: "Require Admin Role!"
+        });
+        return;
+      });
+    } else {
+      res.status(404).send({
+        message: "Usuário não encontrado"
       });
       return;
-    });
+    }
   });
 };
 
 isConsultor = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "consultor") {
-          next();
-          return;
+    if (user) {
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          if (roles[i].name === "consultor") {
+            next();
+            return;
+          }
         }
-      }
 
-      res.status(403).send({
-        message: "Require consultor Role!"
+        res.status(403).send({
+          message: "Require consultor Role!"
+        });
       });
-    });
+    } else {
+      res.status(404).send({
+        message: "Usuário não encontrado"
+      });
+      return;
+    }
   });
 };
 
+// TODO: validar se o usuário foi encontrado com sucesso
 isConsultorOrAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {

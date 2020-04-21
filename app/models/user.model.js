@@ -3,13 +3,10 @@ module.exports = (sequelize, Sequelize) => {
     cpf: {
       type: Sequelize.STRING
     },
-    adminissionDate: {
+    admissionDate: {
       type: Sequelize.STRING
     },
     demissionDate: {
-      type: Sequelize.STRING
-    },
-    cpf: {
       type: Sequelize.STRING
     },
     username: {
@@ -28,9 +25,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     email: {
-      type: Sequelize.STRING
-    },
-    senha: {
       type: Sequelize.STRING
     },
     complemento: {

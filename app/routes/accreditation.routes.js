@@ -1,5 +1,5 @@
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/bairros/bairro.controller");
+const controller = require("../controllers/accreditations/accreditation.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -10,31 +10,31 @@ module.exports = function (app) {
     next();
   });
 
-  // Rota para listar bairro
+  // Rota para listar accreditation
   app.get(
-    "/api/bairro/list",
+    "/api/accreditation/list",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.showBairros
+    controller.showAccreditations
   );
 
-  // Rota para criar bairro
+  // Rota para criar accreditation
   app.post(
-    "/api/bairro/new",
+    "/api/accreditation/new",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.newBairro
+    controller.newAccreditation
   );
 
-  // Rota para editar bairro
+  // Rota para editar accreditation
   app.put(
-    "/api/bairro/edit/:id",
+    "/api/accreditation/edit/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.editBairro
+    controller.editAccreditation
   );
 
-  // Rota para deletar bairro
+  // Rota para deletar accreditation
   app.delete(
-    "/api/bairro/delete",
+    "/api/accreditation/delete",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.deleteBairro
+    controller.deleteAccreditation
   );
 };

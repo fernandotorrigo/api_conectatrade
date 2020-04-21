@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
     backoffice: {
       type: Sequelize.STRING
     },
-    bairro: {
+    neighborhood: {
       type: Sequelize.STRING
     },
     endereco: {

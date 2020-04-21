@@ -1,36 +1,36 @@
 const db = require("../../models");
-const Bairro = db.bairro;
+const Accreditation = db.accreditation;
 
-exports.deleteBairro = (req, res) => {
+exports.deleteAccreditation = (req, res) => {
 
-    Bairro.destroy({
+    Accreditation.destroy({
         where: {
             id: req.query.id
         }
     }).then(rowDeleted => { // rowDeleted will return number of rows deleted
         if (rowDeleted === 1) {
-            res.status(200).send({ message: 'Bairro deletado com sucesso' });
+            res.status(200).send({ message: 'Credenciamento deletado com sucesso' });
         } else {
-            res.status(200).send({ message: 'Nenhum bairro encontrado para deletar' });
+            res.status(200).send({ message: 'Nenhum credenciamento encontrado para deletar' });
         }
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
 };
 
-exports.showBairros = (req, res) => {
-    Bairro.findAll({})
-        .then(bairros => {
-            res.status(200).send({ bairros });
+exports.showAccreditations = (req, res) => {
+    Accreditation.findAll({})
+        .then(accreditations => {
+            res.status(200).send({ accreditations });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
 };
 
-exports.editBairro = (req, res) => {
-    // Bairro
-    Bairro.update(
+exports.editAccreditation = (req, res) => {
+    // Accreditation
+    Accreditation.update(
         {
             cep: req.body.cep,
             name: req.body.name,
@@ -45,10 +45,10 @@ exports.editBairro = (req, res) => {
         .then(data => {
             if (data[1] !== 0) {
                 res.status(200).send({
-                    message: 'Bairro editado com sucesso'
+                    message: 'Credenciamento editado com sucesso'
                 });
             } else {
-                res.status(500).send({ message: "Erro ao editar bairro" });
+                res.status(500).send({ message: "Erro ao editar accreditation" });
             }
         })
         .catch(err => {
@@ -57,16 +57,16 @@ exports.editBairro = (req, res) => {
 };
 
 
-exports.newBairro = (req, res) => {
+exports.newAccreditation = (req, res) => {
     // Save User to Database
-    Bairro.create({
+    Accreditation.create({
         cep: req.body.cep,
         name: req.body.name,
         city: req.body.city,
         state: req.body.state,
     })
-        .then(bairro => {
-            res.send({ message: "Bairro registrado com sucesso" });
+        .then(accreditation => {
+            res.send({ message: "Credenciamento registrado com sucesso" });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

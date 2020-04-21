@@ -26,8 +26,9 @@ db.sequelize = sequelize;
 
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.bairro = require("../models/bairro.model.js")(sequelize, Sequelize);
-db.status = require("../models/status.model.js")(sequelize, Sequelize);
+db.neighborhood = require("../models/neighborhood.model.js")(sequelize, Sequelize);
+db.status = require("./status.model.js")(sequelize, Sequelize);
+db.accreditation = require("../models/accreditation.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

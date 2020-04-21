@@ -80,7 +80,7 @@ exports.editUser = (req, res) => {
             admissionDate: req.body.admissionDate,
             demissionDate: req.body.demissionDate,
             backoffice: req.body.backoffice,
-            bairro: req.body.bairro,
+            neighborhood: req.body.neighborhood,
             endereco: req.body.endereco,
             numero: req.body.numero,
             complemento: req.body.complemento,

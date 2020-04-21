@@ -58,8 +58,6 @@ exports.editUser = (req, res) => {
 
   // Username
   if (req.body.username || req.body.email) {
-    console.log('usuário encontrado');
-
     User.findOne({
       where: {
         username: req.body.username,
@@ -74,7 +72,6 @@ exports.editUser = (req, res) => {
         });
         return;
       } else {
-        console.log('bateu aqui meu amigo')
         User.update(
           {
             username: req.body.username,

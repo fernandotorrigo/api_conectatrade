@@ -24,6 +24,7 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
+  console.log('req.userId', req)
   User.findByPk(req.userId).then(user => {
     if (user) {
       user.getRoles().then(roles => {
@@ -41,7 +42,7 @@ isAdmin = (req, res, next) => {
       });
     } else {
       res.status(404).send({
-        message: "Usuário não encontrado"
+        message: "O seu Usuário não foi encontrado"
       });
       return;
     }

@@ -6,10 +6,9 @@ module.exports = (sequelize, Sequelize) => {
     color: {
       type: Sequelize.STRING
     },
-    isAdmin: {
+    blockedForConsultor: {
       type: Sequelize.INTEGER
     }
   });
-
   return User;
 };

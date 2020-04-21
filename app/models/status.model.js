@@ -3,11 +3,11 @@ module.exports = (sequelize, Sequelize) => {
     name: {
       type: Sequelize.STRING
     },
-    isAdmin: {
+    color: {
       type: Sequelize.STRING
     },
-    password: {
-      type: Sequelize.STRING
+    isAdmin: {
+      type: Sequelize.INTEGER
     }
   });
 

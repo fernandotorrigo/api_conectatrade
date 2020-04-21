@@ -29,8 +29,8 @@ exports.showBairros = (req, res) => {
 };
 
 exports.editBairro = (req, res) => {
-    // Username
-    User.update(
+    // Bairro
+    Bairro.update(
         {
             cep: req.body.cep,
             name: req.body.name,
@@ -45,7 +45,7 @@ exports.editBairro = (req, res) => {
         .then(data => {
             if (data[1] !== 0) {
                 res.status(200).send({
-                    message: 'bairro editado com sucesso'
+                    message: 'Bairro editado com sucesso'
                 });
             } else {
                 res.status(500).send({ message: "Erro ao editar bairro" });
@@ -66,8 +66,7 @@ exports.newBairro = (req, res) => {
         state: req.body.state,
     })
         .then(bairro => {
-            console.log('bairro', bairro)
-            res.send({ message: "Usuário registrado com sucesso" });
+            res.send({ message: "Bairro registrado com sucesso" });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

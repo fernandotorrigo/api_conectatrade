@@ -21,7 +21,7 @@ module.exports = function (app) {
   app.post(
     "/api/bairro/new",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.showBairros
+    controller.newBairro
   );
 
   // Rota para editar bairro

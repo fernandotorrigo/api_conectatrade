@@ -13,21 +13,21 @@ module.exports = function (app) {
   // Rota para listar accreditation
   app.get(
     "/api/accreditation/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.accessAllUsers],
     controller.showAccreditations
   );
 
   // Rota para criar accreditation
   app.post(
     "/api/accreditation/new",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isConsultorOrAdmin],
     controller.newAccreditation
   );
 
   // Rota para editar accreditation
   app.put(
     "/api/accreditation/edit/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.accessAllUsers],
     controller.editAccreditation
   );
 

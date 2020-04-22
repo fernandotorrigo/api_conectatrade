@@ -95,10 +95,28 @@ isConsultorOrAdmin = (req, res, next) => {
   });
 };
 
+accessAllUsers = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name) {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Require any login!"
+      });
+    });
+  });
+};
+
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isConsultor: isConsultor,
-  isConsultorOrAdmin: isConsultorOrAdmin
+  isConsultorOrAdmin: isConsultorOrAdmin,
+  accessAllUsers: accessAllUsers
 };
 module.exports = authJwt;

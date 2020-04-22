@@ -24,12 +24,14 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.role = require("../models/role.model.js")(sequelize, Sequelize);
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.neighborhood = require("../models/neighborhood.model.js")(sequelize, Sequelize);
-db.status = require("./status.model.js")(sequelize, Sequelize);
-db.accreditation = require("../models/accreditation.model.js")(sequelize, Sequelize);
+db.role = require("./role.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.neighborhood = require("./neighborhood.model.js")(sequelize, Sequelize);
+db.accreditation = require("./accreditation.model.js")(sequelize, Sequelize);
+db.status = require("./accreditation_status.model.js")(sequelize, Sequelize);
+db.company_person_registration = require("./company_person_registration.model.js")(sequelize, Sequelize);
 
+// Relacionamento de usuário com roles
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -39,6 +41,20 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
   otherKey: "roleId"
+});
+
+// Relacionamento de dados person/company na tabela de credenciamento
+db.accreditation.belongsTo(db.user, {
+  foreignKey: 'consultorId',
+});
+db.accreditation.belongsTo(db.company_person_registration, {
+  foreignKey: 'companyPersonRegistrationId',
+});
+db.accreditation.belongsTo(db.neighborhood, {
+  foreignKey: 'neighborhoodId',
+});
+db.accreditation.belongsTo(db.status, {
+  foreignKey: 'accreditationsStatusId',
 });
 
 db.ROLES = ["backoffice", "consultor", "admin"];

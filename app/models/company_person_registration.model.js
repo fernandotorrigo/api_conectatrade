@@ -3,27 +3,36 @@ module.exports = (sequelize, Sequelize) => {
         idec: {
             type: Sequelize.INTEGER
         },
-        cpf_cnpj: {
+        cnpj: {
             type: Sequelize.STRING
         },
-        name_person_razao_social: {
+        razao_social: {
             type: Sequelize.STRING
         },
-        apelido_nome_fantasia: {
+        nome_fantasia: {
             type: Sequelize.STRING
         },
-        telefone: {
+        cnae_principal: {
+            type: Sequelize.STRING
+        },
+        cpf: {
+            type: Sequelize.STRING
+        },
+        name_person: {
+            type: Sequelize.STRING
+        },
+        telefone1: {
+            type: Sequelize.STRING
+        },
+        telefone2: {
             type: Sequelize.STRING
         },
         birthdate: {
             type: Sequelize.DATEONLY
         },
-        cnae_principal: {
+        email: {
             type: Sequelize.STRING
         },
-        email_company_person: {
-            type: Sequelize.STRING
-        }
     });
 
     return company_person_registration;

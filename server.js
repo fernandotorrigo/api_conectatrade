@@ -6,13 +6,13 @@ const morgan = require("morgan");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: ""
 };
 
 
 app.use(morgan('dev'));
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -42,6 +42,7 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);
+require('./app/routes/buscaCep.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

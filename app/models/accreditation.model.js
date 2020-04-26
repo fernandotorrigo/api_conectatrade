@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
         typePerson: {
             type: Sequelize.ENUM('PJ', 'PF')
         },
-        neighborhoodCompany: {
+        cep: {
             type: Sequelize.STRING
         },
         enderecoCompany: {
@@ -44,6 +44,15 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         complementoCompany: {
+            type: Sequelize.STRING
+        },
+        neighborhoodCompany: {
+            type: Sequelize.STRING
+        },
+        city: {
+            type: Sequelize.STRING
+        },
+        state: {
             type: Sequelize.STRING
         },
         habilitElo: {

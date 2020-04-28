@@ -20,12 +20,6 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             require: true
         },
-        neighborhoodId: {
-            type: Sequelize.INTEGER,
-            references: { model: 'neighborhoods', key: 'id' },
-            allowNull: false,
-            require: true
-        },
         accreditationsStatusId: {
             type: Sequelize.INTEGER,
             references: { model: 'accreditations_statuses', key: 'id' },
@@ -109,23 +103,38 @@ module.exports = (sequelize, Sequelize) => {
         HipercardModCred7a12ParcSJuros: {
             type: Sequelize.STRING
         },
-        sfFrenteEC: {
+        sfFrenteECName: {
             type: Sequelize.STRING
         },
-        fotoAdesivoFrente: {
+        sfFrenteECDataImage: {
+            type: Sequelize.BLOB('long')
+        },
+        fotoAdesivoFrenteName: {
             type: Sequelize.STRING
         },
-        fotoStopperFora: {
+        fotoAdesivoFrenteDataImage: {
+            type: Sequelize.BLOB('long')
+        },
+        fotoStopperForaName: {
             type: Sequelize.STRING
         },
-        fotoBalcaoTrasacaoTeste: {
+        fotoStopperForaDataImage: {
+            type: Sequelize.BLOB('long')
+        },
+        fotoBalcaoTrasacaoTesteName: {
             type: Sequelize.STRING
         },
-        fotoIdLojista: {
+        fotoBalcaoTrasacaoTesteDataImage: {
+            type: Sequelize.BLOB('long')
+        },
+        fotoIdLojistaName: {
             type: Sequelize.STRING
         },
-        audioRecord: {
-            type: Sequelize.STRING
+        fotoIdLojistaDataImage: {
+            type: Sequelize.BLOB('long')
+        },
+        audioRecordName: {
+            type: Sequelize.BLOB('long')
         }
     });
 

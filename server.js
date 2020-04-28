@@ -9,22 +9,25 @@ var corsOptions = {
   origin: ""
 };
 
-
 app.use(morgan('dev'));
 
 app.use(cors());
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+const configBodyParser = {
+  json: {limit: '150mb', extended: true},
+  urlencoded: {limit: '150mb', extended: true}
+};
+app.use(bodyParser.json({limit: '50mb'}));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // database
 const db = require("./app/models");
 const Role = db.role;
 
-db.sequelize.sync();
+// db.sequelize.sync();
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Database with { force: true }');
@@ -43,6 +46,7 @@ require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);
 require('./app/routes/buscaCep.routes')(app);
+require('./app/routes/upload.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -55,12 +59,12 @@ function initial() {
     id: 1,
     name: "consultor"
   });
- 
+
   Role.create({
     id: 2,
     name: "backoffice"
   });
- 
+
   Role.create({
     id: 3,
     name: "admin"

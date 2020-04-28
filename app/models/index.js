@@ -50,9 +50,6 @@ db.accreditation.belongsTo(db.user, {
 db.accreditation.belongsTo(db.company_person_registration, {
   foreignKey: 'companyPersonRegistrationId',
 });
-db.accreditation.belongsTo(db.neighborhood, {
-  foreignKey: 'neighborhoodId',
-});
 db.accreditation.belongsTo(db.status, {
   foreignKey: 'accreditationsStatusId',
 });

@@ -69,32 +69,41 @@ exports.newAccreditation = (req, res) => {
 
     companyPersonRegistration.create({
         idec: req.body.idec || '',
-        cpf_cnpj: req.body.cpf_cnpj || '',
-        name_person_razao_social: req.body.name_person_razao_social || '',
-        apelido_nome_fantasia: req.body.apelido_nome_fantasia || '',
-        telefone: req.body.telefone || '',
-        birthdate: req.body.birthdate || '',
+        cnpj: req.body.cnpj || '',
+        razao_social: req.body.razao_social || '',
+        nome_fantasia: req.body.nome_fantasia || '',
         cnae_principal: req.body.cnae_principal || '',
-        email_company_person: req.body.email_company_person || '',
+        cpf: req.body.cpf || '',
+        name_person: req.body.name_person || '',
+        telefone1: req.body.telefone1 || '',
+        telefone2: req.body.telefone2 || '',
+        birthdate: req.body.birthdate || '',
+        telefone1: req.body.telefone1 || '',
+        telefone1: req.body.telefone1 || '',
+        email: req.body.email || ''
     })
         .then(dataCompanyPerson => {
             Accreditation.create({
                 consultorId: req.body.consultorId || '',
                 companyPersonRegistrationId: dataCompanyPerson.id || '',
-                neighborhoodId: req.body.neighborhoodId || '',
                 accreditationsStatusId: req.body.accreditationsStatusId || '',
                 typePerson: req.body.typePerson || '',
-                neighborhood: req.body.neighborhood || '',
-                endereco: req.body.endereco || '',
-                numero: req.body.numero || '',
-                email: req.body.email || '',
-                complemento: req.body.complemento || '',
-                habilitElo: req.body.habilitElo || '',
-                habilitHipercard: req.body.habilitHipercard || '',
-                antecRav: req.body.antecRav || '',
-                antecAut: req.body.antecAut || '',
-                monthlyBilling: req.body.monthlyBilling || '',
-                mainActiveService: req.body.mainActiveService || '',
+
+                cep: req.body.cep || '',
+                enderecoCompany: req.body.enderecoCompany || '',
+                numeroCompany: req.body.numeroCompany || '',
+                complementoCompany: req.body.complementoCompany || '',
+                neighborhoodCompany: req.body.neighborhoodCompany || '',
+                city: req.body.city || '',
+                state: req.body.state || '',
+
+                habilitElo: req.body.habilitElo || 'N',
+                habilitHipercard: req.body.habilitHipercard || 'N',
+                antecRav: req.body.antecRav || 'N',
+                antecAut: req.body.antecAut || 'N',
+                monthlyBilling: req.body.monthlyBilling || 0.00,
+                mainActiveService: req.body.mainActiveService || 'PicPay',
+                
                 visaMasterModDebV: req.body.visaMasterModDebV || '',
                 visaMasterModCredV: req.body.visaMasterModCredV || '',
                 visaMasterModCred2a6ParcSJuros: req.body.visaMasterModCred2a6ParcSJuros || '',
@@ -107,11 +116,18 @@ exports.newAccreditation = (req, res) => {
                 HipercardModCredV: req.body.HipercardModCredV || '',
                 HipercardModCred2a6ParcSJuros: req.body.HipercardModCred2a6ParcSJuros || '',
                 HipercardModCred7a12ParcSJuros: req.body.HipercardModCred7a12ParcSJuros || '',
-                sfFrenteEC: req.body.sfFrenteEC || '',
-                fotoAdesivoFrente: req.body.fotoAdesivoFrente || '',
-                fotoStopperFora: req.body.fotoStopperFora || '',
-                fotoBalcaoTrasacaoTeste: req.body.fotoBalcaoTrasacaoTeste || '',
-                fotoIdLojista: req.body.fotoIdLojista || ''
+
+                sfFrenteECName: req.body.sfFrenteECName || '',
+                sfFrenteECDataImage: req.body.sfFrenteECDataImage || '',
+                fotoAdesivoFrenteName: req.body.fotoAdesivoFrenteName|| '',
+                fotoAdesivoFrenteDataImage: req.body.fotoAdesivoFrenteDataImage || '',
+                fotoStopperForaName: req.body.fotoStopperForaName || '',
+                fotoStopperForaDataImage: req.body.fotoStopperForaDataImage || '',
+                fotoBalcaoTrasacaoTesteName: req.body.fotoBalcaoTrasacaoTesteName || '',
+                fotoBalcaoTrasacaoTesteDataImage: req.body.fotoBalcaoTrasacaoTesteDataImage || '',
+                fotoIdLojistaName: req.body.fotoIdLojistaName || '',
+                fotoIdLojistaDataImage: req.body.fotoIdLojistaDataImage || '',
+
             })
                 .then(accreditation => {
                     res.status(200).send({ dataCompanyPerson, accreditation });

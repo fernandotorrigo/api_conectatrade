@@ -107,34 +107,34 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         sfFrenteECDataImage: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         },
         fotoAdesivoFrenteName: {
             type: Sequelize.STRING
         },
         fotoAdesivoFrenteDataImage: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         },
         fotoStopperForaName: {
             type: Sequelize.STRING
         },
         fotoStopperForaDataImage: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         },
         fotoBalcaoTrasacaoTesteName: {
             type: Sequelize.STRING
         },
         fotoBalcaoTrasacaoTesteDataImage: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         },
         fotoIdLojistaName: {
             type: Sequelize.STRING
         },
         fotoIdLojistaDataImage: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         },
         audioRecordName: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING
         }
     });
 

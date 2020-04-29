@@ -1,7 +1,8 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/upload.controller");
 const multipart = require("connect-multiparty");
-const multipartMiddleware = multipart({uploadDir: './uploads'});
+const objDate = new Date();
+const multipartMiddleware = multipart({ uploadDir: './uploads/' + objDate.getDate()+ '-' + objDate.getMonth() + '-' + objDate.getFullYear() });
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -16,6 +17,6 @@ module.exports = function (app) {
   app.post(
     "/api/upload",
     [multipartMiddleware, authJwt.verifyToken, authJwt.accessAllUsers],
-    controller.upload
+    controller.uploadArquivo
   );
 };

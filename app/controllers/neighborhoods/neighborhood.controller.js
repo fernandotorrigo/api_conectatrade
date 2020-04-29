@@ -21,7 +21,7 @@ exports.deleteNeighborhood = (req, res) => {
 exports.showNeighborhoods = (req, res) => {
     Neighborhood.findAll({})
         .then(neighborhoods => {
-            res.status(200).send({ neighborhoods });
+            res.status(200).send([{ neighborhoods }]);
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

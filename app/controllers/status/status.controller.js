@@ -21,7 +21,7 @@ exports.deleteStatus = (req, res) => {
 exports.showStatus = (req, res) => {
     Status.findAll({})
         .then(status => {
-            res.status(200).send({ status });
+            res.status(200).send([{ status }]);
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

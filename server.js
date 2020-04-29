@@ -38,6 +38,7 @@ const Role = db.role;
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
+app.use('/enviadas', express.static(__dirname  + '/uploads'));
 
 // routes
 require('./app/routes/auth.routes')(app);

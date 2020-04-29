@@ -1,6 +1,7 @@
 const db = require("../../models");
 const Accreditation = db.accreditation;
 const companyPersonRegistration = db.company_person_registration;
+const status = db.status;
 
 exports.deleteAccreditation = (req, res) => {
 
@@ -25,11 +26,14 @@ exports.showAccreditations = (req, res) => {
         include: [
             {
                 model: companyPersonRegistration
+            },
+            {
+                model: status, attributes: ['name', 'color', 'blockedForConsultor']
             }
         ]
     })
         .then(accreditations => {
-            res.status(200).send({ accreditations });
+            res.status(200).send([{ accreditations }]);
         })
         .catch(err => {
             res.status(500).send({ message: err.message });

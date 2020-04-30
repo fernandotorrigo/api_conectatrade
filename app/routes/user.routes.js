@@ -10,31 +10,18 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/test/all", controller.allAccess);
-
-  app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isConsultor],
-    controller.consultorBoard
-  );
-
-  app.get(
-    "/api/test/user",
-    [authJwt.verifyToken],
-    controller.userBoard
-  );
-
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
-
   // Rota para listar usuário
   app.get(
     "/api/user/list",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.showUsers
+  );
+
+  // Rota para listar usuário
+  app.get(
+    "/api/user-backoffice/list",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.showUsersBackoffice
   );
 
   // Rota para criar usuário

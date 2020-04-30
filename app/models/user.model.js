@@ -3,21 +3,30 @@ module.exports = (sequelize, Sequelize) => {
     cpf: {
       type: Sequelize.STRING
     },
-    admissionDate: {
+    dataAdmissao: {
       type: Sequelize.STRING
     },
-    demissionDate: {
+    dataDemissao: {
       type: Sequelize.STRING
     },
     username: {
       type: Sequelize.STRING
     },
-    backoffice: {
+    nomeUsuario: {
       type: Sequelize.STRING
     },
-    neighborhood: {
-      type: Sequelize.STRING
-    },
+    idBackoffice: {
+      type: Sequelize.INTEGER,
+      references: { model: 'users', key: 'id' },
+      allowNull: true,
+      require: true
+  },
+    idBairro: {
+      type: Sequelize.INTEGER,
+      references: { model: 'neighborhoods', key: 'id' },
+      allowNull: true,
+      require: true
+  },
     endereco: {
       type: Sequelize.STRING
     },

@@ -12,18 +12,19 @@ exports.signup = (req, res) => {
 
   // Save User to Database
   User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
     cpf: req.body.cpf,
-    admissionDate: req.body.admissionDate,
-    demissionDate: req.body.demissionDate,
-    backoffice: req.body.backoffice,
-    neighborhood: req.body.neighborhood,
+    dataAdmissao: req.body.dataAdmissao,
+    dataDemissao: req.body.dataDemissao,
+    username: req.body.username,
+    nomeUsuario: req.body.nomeUsuario,
+    idBackoffice: req.body.idBackoffice,
+    idBairro: req.body.idBairro,
+    email: req.body.email,
     endereco: req.body.endereco,
     numero: req.body.numero,
     complemento: req.body.complemento,
     telefone: req.body.telefone,
+    password: bcrypt.hashSync(req.body.password, 8),
   })
     .then(user => {
       if (req.body.roles) {

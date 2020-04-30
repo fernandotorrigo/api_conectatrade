@@ -54,6 +54,24 @@ exports.showUsers = (req, res) => {
     });
 };
 
+exports.showUsersBackoffice = (req, res) => {
+  User.findAll({
+    include: [
+      {
+        model: Role,
+        where: { id: 2 }
+      },
+    ]
+
+  })
+    .then(users => {
+      res.status(200).send([{ users }]);
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 exports.editUser = (req, res) => {
 
   // Username
@@ -93,9 +111,9 @@ exports.editUser = (req, res) => {
         })
           .then(data => {
             if (data[1] !== 0) {
-              res.status(200).send({ 
+              res.status(200).send({
                 message: 'Usuário editado com sucesso'
-               });
+              });
             } else {
               res.status(500).send({ message: "Erro ao editar usuário" });
             }

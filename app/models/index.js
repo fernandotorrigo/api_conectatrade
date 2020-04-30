@@ -43,6 +43,7 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
+
 // Relacionamento de dados person/company na tabela de credenciamento
 db.accreditation.belongsTo(db.user, {
   foreignKey: 'consultorId',

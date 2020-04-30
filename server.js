@@ -43,6 +43,7 @@ app.use('/enviadas', express.static(__dirname  + '/uploads'));
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/role.routes')(app);
 require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);

@@ -14,7 +14,7 @@ module.exports = function (app) {
   app.get(
     "/api/accreditation/list",
     [authJwt.verifyToken, authJwt.accessAllUsers],
-    controller.showAccreditations
+    controller.showAccreditations,
   );
 
   // Rota para criar accreditation

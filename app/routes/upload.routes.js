@@ -2,7 +2,16 @@ const { authJwt } = require("../middleware");
 const controller = require("../controllers/upload.controller");
 const multipart = require("connect-multiparty");
 const objDate = new Date();
-const multipartMiddleware = multipart({ uploadDir: './uploads/' + objDate.getDate()+ '-' + objDate.getMonth() + '-' + objDate.getFullYear() });
+
+const fs = require('fs');
+const pasta = './uploads/' + objDate.getDate() + '-' + objDate.getMonth() + '-' + objDate.getFullYear();
+//Verifica se não existe
+if (!fs.existsSync(pasta)) {
+  //Efetua a criação do diretório
+  fs.mkdirSync(pasta);
+}
+
+const multipartMiddleware = multipart({ uploadDir: pasta });
 
 module.exports = function (app) {
   app.use(function (req, res, next) {

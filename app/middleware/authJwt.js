@@ -49,6 +49,8 @@ isAdmin = (req, res, next) => {
   });
 };
 
+
+
 isConsultor = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     if (user) {
@@ -71,6 +73,25 @@ isConsultor = (req, res, next) => {
       return;
     }
   });
+};
+
+
+getIsConsultor = (req, res, next) => {
+
+  User.findByPk(req.userId).then(user => {
+
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "consultor") {
+          console.log('é consutor sim')
+          next();
+          return true;
+        } else {
+          return false;
+        }
+      }
+    });
+});
 };
 
 // TODO: validar se o usuário foi encontrado com sucesso
@@ -118,6 +139,7 @@ const authJwt = {
   isAdmin: isAdmin,
   isConsultor: isConsultor,
   isConsultorOrAdmin: isConsultorOrAdmin,
-  accessAllUsers: accessAllUsers
+  accessAllUsers: accessAllUsers,
+  getIsConsultor: getIsConsultor
 };
 module.exports = authJwt;

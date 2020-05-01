@@ -2,6 +2,8 @@ const db = require("../../models");
 const Accreditation = db.accreditation;
 const companyPersonRegistration = db.company_person_registration;
 const status = db.status;
+const User = db.user;
+
 
 exports.deleteAccreditation = (req, res) => {
 
@@ -41,6 +43,62 @@ exports.showAccreditations = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
+};
+
+exports.showAccreditations = async (req, res) => {
+
+    User.findByPk(req.userId).then(user => {
+        user.getRoles().then(roles => {
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].name === "consultor") {
+                    Accreditation.findAll({
+                        include: [
+                            {
+                                model: companyPersonRegistration
+                            },
+                            {
+                                model: status, attributes: ['name', 'color', 'blockedForConsultor']
+                            }
+                        ],
+                        where: { consultorId: req.userId },
+                        order: [
+                            ['id', 'DESC']
+                        ]
+                    })
+                        .then(accreditations => {
+                            res.status(200).send([{ accreditations }]);
+                        })
+                        .catch(err => {
+                            res.status(500).send({ message: err.message });
+                        });
+                } else {
+                    Accreditation.findAll({
+                        include: [
+                            {
+                                model: companyPersonRegistration
+                            },
+                            {
+                                model: User, attributes: ['nomeUsuario']
+                            },
+                            {
+                                model: status, attributes: ['name', 'color', 'blockedForConsultor']
+                            }
+                        ],
+                        order: [
+                            ['id', 'DESC']
+                        ]
+                    })
+                        .then(accreditations => {
+                            res.status(200).send([{ accreditations }]);
+                        })
+                        .catch(err => {
+                            res.status(500).send({ message: err.message });
+                        });
+
+                }
+            }
+        }).catch(err => false);
+    });
 };
 
 exports.editAccreditation = (req, res) => {
@@ -110,7 +168,7 @@ exports.newAccreditation = (req, res) => {
                 antecAut: req.body.antecAut || 'N',
                 monthlyBilling: req.body.monthlyBilling || 0.00,
                 mainActiveService: req.body.mainActiveService || 'PicPay',
-                
+
                 visaMasterModDebV: req.body.visaMasterModDebV || '',
                 visaMasterModCredV: req.body.visaMasterModCredV || '',
                 visaMasterModCred2a6ParcSJuros: req.body.visaMasterModCred2a6ParcSJuros || '',
@@ -126,7 +184,7 @@ exports.newAccreditation = (req, res) => {
 
                 sfFrenteECName: req.body.sfFrenteECName || '',
                 sfFrenteECDataImage: req.body.sfFrenteECDataImage || '',
-                fotoAdesivoFrenteName: req.body.fotoAdesivoFrenteName|| '',
+                fotoAdesivoFrenteName: req.body.fotoAdesivoFrenteName || '',
                 fotoAdesivoFrenteDataImage: req.body.fotoAdesivoFrenteDataImage || '',
                 fotoStopperForaName: req.body.fotoStopperForaName || '',
                 fotoStopperForaDataImage: req.body.fotoStopperForaDataImage || '',

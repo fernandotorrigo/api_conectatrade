@@ -17,6 +17,12 @@ module.exports = function (app) {
     controller.showStatus
   );
 
+  app.get(
+    "/api/status/list/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.showOneStatus
+  );
+
   // Rota para criar status
   app.post(
     "/api/status/new",

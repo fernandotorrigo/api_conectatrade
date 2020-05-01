@@ -28,6 +28,20 @@ exports.showStatus = (req, res) => {
         });
 };
 
+exports.showOneStatus = (req, res) => {
+    Status.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(status => {
+            res.status(200).send([{ status }]);
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
 exports.editStatus = (req, res) => {
     // Status
     Status.update(

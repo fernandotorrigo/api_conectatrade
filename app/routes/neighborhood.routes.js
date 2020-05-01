@@ -17,6 +17,13 @@ module.exports = function (app) {
     controller.showNeighborhoods
   );
 
+  app.get(
+    "/api/neighborhood/list/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.showOneNeighborhoods
+  );
+
+
   // Rota para criar neighborhood
   app.post(
     "/api/neighborhood/new",

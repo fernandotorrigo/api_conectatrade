@@ -54,6 +54,25 @@ exports.showUsers = (req, res) => {
     });
 };
 
+exports.showOneUser = (req, res) => {
+  User.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: Role
+      }
+    ]
+  })
+    .then(users => {
+      res.status(200).send([{ users }]);
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 exports.showUsersBackoffice = (req, res) => {
   User.findAll({
     include: [
@@ -74,6 +93,15 @@ exports.showUsersBackoffice = (req, res) => {
 
 exports.editUser = (req, res) => {
 
+  let rolesId = req.body.perfil;
+  roleName = db.ROLES[rolesId - 1];
+  roleArray = [roleName];
+  if (!roleArray) {
+    res.status(400).send({
+      message: "Não foi possivel selecionar o perfil"
+    });
+    return;
+  }
   // Username
   if (req.body.username || req.body.email) {
     User.findOne({
@@ -92,13 +120,14 @@ exports.editUser = (req, res) => {
       } else {
         User.update(
           {
-            username: req.body.username,
-            email: req.body.email,
             cpf: req.body.cpf,
-            admissionDate: req.body.admissionDate,
-            demissionDate: req.body.demissionDate,
-            backoffice: req.body.backoffice,
-            neighborhood: req.body.neighborhood,
+            dataAdmissao: req.body.dataAdmissao,
+            dataDemissao: req.body.dataDemissao,
+            username: req.body.username,
+            nomeUsuario: req.body.nomeUsuario,
+            idBackoffice: req.body.idBackoffice,
+            idBairro: req.body.idBairro,
+            email: req.body.email,
             endereco: req.body.endereco,
             numero: req.body.numero,
             complemento: req.body.complemento,

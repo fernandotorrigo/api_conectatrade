@@ -17,6 +17,11 @@ module.exports = function (app) {
     controller.showUsers
   );
 
+  app.get(
+    "/api/user/list/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.showOneUser
+  );
   // Rota para listar usuário
   app.get(
     "/api/user-backoffice/list",

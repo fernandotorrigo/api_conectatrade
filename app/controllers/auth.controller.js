@@ -10,6 +10,17 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
 
+  let rolesId = req.body.perfil;
+  roleName = db.ROLES[rolesId - 1];
+  roleArray = [roleName];
+  console.log('roleArray,', roleArray);
+
+  if (!roleArray) {
+    res.status(400).send({
+      message: "Não foi possivel selecionar o perfil"
+    });
+    return;
+  }
   // Save User to Database
   User.create({
     cpf: req.body.cpf,
@@ -27,11 +38,11 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8),
   })
     .then(user => {
-      if (req.body.roles) {
+      if (roleArray) {
         Role.findAll({
           where: {
             name: {
-              [Op.or]: req.body.roles
+              [Op.or]: roleArray
             }
           }
         }).then(roles => {

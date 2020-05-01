@@ -28,6 +28,21 @@ exports.showNeighborhoods = (req, res) => {
         });
 };
 
+
+exports.showOneNeighborhoods = (req, res) => {
+    Neighborhood.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(neighborhoods => {
+            res.status(200).send([{ neighborhoods }]);
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
 exports.editNeighborhood = (req, res) => {
     // Neighborhood
     Neighborhood.update(

@@ -1,8 +1,8 @@
 const db = require("../../models");
 const User = db.user;
 const Role = db.role;
+const UserRole = db.user_roles;
 const Op = db.Sequelize.Op;
-
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -44,7 +44,10 @@ exports.showUsers = (req, res) => {
       {
         model: Role
       }
-    ]
+    ],
+    order: [
+      ['id', 'DESC']
+    ],
   })
     .then(users => {
       res.status(200).send([{ users }]);
@@ -138,18 +141,42 @@ exports.editUser = (req, res) => {
             id: req.params.id
           }
         })
-          .then(data => {
-            if (data[1] !== 0) {
-              res.status(200).send({
-                message: 'Usuário editado com sucesso'
+          .then(user => {
+
+            console.log(user)
+            if (req.body.perfil) {
+              UserRole.update(
+                {
+                  roleId: req.body.perfil,
+                }, {
+                returning: true,
+                where: {
+                  userId: req.params.id
+                }
+              }).then(roles => {
+                res.send({ message: "Usuário editado com sucesso", roles });
               });
             } else {
-              res.status(500).send({ message: "Erro ao editar usuário" });
+              res.send({ message: "Dados de perfil vazios" });
             }
           })
           .catch(err => {
             res.status(500).send({ message: err.message });
           });
+
+        // .then(data => {
+        //   if (data[1] !== 0) {
+
+        //     res.status(200).send({
+        //       message: 'Usuário editado com sucesso'
+        //     });
+        //   } else {
+        //     res.status(500).send({ message: "Erro ao editar usuário" });
+        //   }
+        // })
+        // .catch(err => {
+        //   res.status(500).send({ message: err.message });
+        // });
       }
     }).catch(err => {
       res.status(500).send({ message: err.message });

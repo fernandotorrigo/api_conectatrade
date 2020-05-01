@@ -19,7 +19,11 @@ exports.deleteStatus = (req, res) => {
 };
 
 exports.showStatus = (req, res) => {
-    Status.findAll({})
+    Status.findAll({
+        order: [
+            ['id', 'DESC']
+        ],
+    })
         .then(status => {
             res.status(200).send([{ status }]);
         })

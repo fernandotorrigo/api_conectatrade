@@ -30,6 +30,9 @@ exports.showAccreditations = (req, res) => {
             {
                 model: status, attributes: ['name', 'color', 'blockedForConsultor']
             }
+        ],
+        order: [
+            ['id', 'DESC']
         ]
     })
         .then(accreditations => {

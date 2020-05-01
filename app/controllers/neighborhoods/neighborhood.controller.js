@@ -19,7 +19,11 @@ exports.deleteNeighborhood = (req, res) => {
 };
 
 exports.showNeighborhoods = (req, res) => {
-    Neighborhood.findAll({})
+    Neighborhood.findAll({
+        order: [
+            ['id', 'DESC']
+        ],
+    })
         .then(neighborhoods => {
             res.status(200).send([{ neighborhoods }]);
         })

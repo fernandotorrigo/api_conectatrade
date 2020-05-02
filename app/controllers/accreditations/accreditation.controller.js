@@ -101,6 +101,31 @@ exports.showAccreditations = async (req, res) => {
     });
 };
 
+
+exports.showAOneaccreditations = async (req, res) => {
+
+    Accreditation.findOne({
+        include: [
+            {
+                model: companyPersonRegistration
+            },
+            {
+                model: status, attributes: ['name', 'color', 'blockedForConsultor']
+            }
+        ],
+        where: { consultorId: req.params.id },
+        order: [
+            ['id', 'DESC']
+        ]
+    })
+        .then(accreditations => {
+            res.status(200).send([{ accreditations }]);
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+}
+
 exports.editAccreditation = (req, res) => {
     // Accreditation
     Accreditation.update(

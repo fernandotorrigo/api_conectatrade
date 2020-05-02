@@ -17,6 +17,13 @@ module.exports = function (app) {
     controller.showAccreditations,
   );
 
+  // Rota para listar accreditation
+  app.get(
+    "/api/accreditation/list/:id",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.showAOneaccreditations,
+  );
+
   // Rota para criar accreditation
   app.post(
     "/api/accreditation/new",

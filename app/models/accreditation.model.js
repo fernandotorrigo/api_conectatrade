@@ -121,6 +121,12 @@ module.exports = (sequelize, Sequelize) => {
         fotoStopperForaDataImage: {
             type: Sequelize.STRING
         },
+        fotoBalcaoQROfertaName: {
+            type: Sequelize.STRING
+        },
+        fotoBalcaoQROfertaDataImage: {
+            type: Sequelize.STRING
+        },
         fotoBalcaoTrasacaoTesteName: {
             type: Sequelize.STRING
         },
@@ -135,6 +141,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         audioRecordName: {
             type: Sequelize.STRING
+        },
+        obs: {
+            type: Sequelize.TEXT
         }
     });
 

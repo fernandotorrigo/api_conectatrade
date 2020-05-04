@@ -48,6 +48,7 @@ require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);
 require('./app/routes/buscaCep.routes')(app);
+require('./app/routes/buscaCnpj.routes')(app);
 require('./app/routes/upload.routes')(app);
 
 // set port, listen for requests

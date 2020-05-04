@@ -24,6 +24,13 @@ module.exports = function (app) {
     controller.showAOneaccreditations,
   );
 
+  app.get(
+    "/api/accreditation-admin/list/:id",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.showAOneaccreditationsAdmin,
+  );
+
+
   // Rota para criar accreditation
   app.post(
     "/api/accreditation/new",
@@ -36,6 +43,12 @@ module.exports = function (app) {
     "/api/accreditation/edit/:id",
     [authJwt.verifyToken, authJwt.accessAllUsers],
     controller.editAccreditation
+  );
+
+  app.put(
+    "/api/accreditation-admin/edit/:id",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.editAccreditationAdmin
   );
 
   // Rota para deletar accreditation

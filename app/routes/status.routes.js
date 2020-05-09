@@ -13,7 +13,7 @@ module.exports = function (app) {
   // Rota para listar status
   app.get(
     "/api/status/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.accessAllUsers],
     controller.showStatus
   );
 

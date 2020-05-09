@@ -56,6 +56,6 @@ db.accreditation.belongsTo(db.status, {
   foreignKey: 'accreditationsStatusId',
 });
 
-db.ROLES = ["consultor", "backoffice", "admin"];
+db.ROLES = ["consultor", "backoffice", "admin", "cliente"];
 
 module.exports = db;

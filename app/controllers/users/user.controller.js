@@ -143,7 +143,7 @@ exports.editUser = (req, res) => {
         })
           .then(user => {
 
-            console.log(user)
+            // console.log(user)
             if (req.body.perfil) {
               UserRole.update(
                 {

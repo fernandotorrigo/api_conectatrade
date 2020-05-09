@@ -1,6 +1,6 @@
 exports.uploadArquivo = (req, res) => {
     const files = req.files;
-    console.log(req);
+    // console.log(req);
     if (files) {
         res.status(200).send(files);
     } else {

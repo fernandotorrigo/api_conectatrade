@@ -57,12 +57,12 @@ exports.showAccreditations = async (req, res) => {
     let whereCredenciamento = {};
     let whereEmpresa = {};
 
-    console.log('cnpj', cnpj);
-    console.log('idec', idec);
-    console.log('razao_social', razao_social);
-    console.log('id_status', id_status);
-    console.log('dataIni', dataIni);
-    console.log('dataFim', dataFim);
+    // console.log('cnpj', cnpj);
+    // console.log('idec', idec);
+    // console.log('razao_social', razao_social);
+    // console.log('id_status', id_status);
+    // console.log('dataIni', dataIni);
+    // console.log('dataFim', dataFim);
 
     if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
     if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
@@ -75,7 +75,7 @@ exports.showAccreditations = async (req, res) => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
                 if (roles[i].name === "consultor") {
-                    console.log('consiltorrrrr')
+                    // console.log('consiltorrrrr')
                     Accreditation.findAll({
                         include: [
                             {
@@ -227,7 +227,7 @@ exports.editAccreditation = (req, res) => {
     })
         .then(accreditation => {
 
-            console.log(accreditation);
+            // console.log(accreditation);
             companyPersonRegistration.update({
                 idec: req.body.idec,
                 cnpj: req.body.cnpj,
@@ -262,7 +262,7 @@ exports.editAccreditation = (req, res) => {
 
 exports.editAccreditationAdmin = (req, res) => {
 
-    console.log('bateu onde eu queria')
+    // console.log('bateu onde eu queria')
     Accreditation.update({
         accreditationsStatusId: req.body.accreditationsStatusId,
         typePerson: req.body.typePerson,
@@ -317,7 +317,7 @@ exports.editAccreditationAdmin = (req, res) => {
     })
         .then(accreditation => {
 
-            console.log(accreditation);
+            // console.log(accreditation);
             companyPersonRegistration.update({
                 idec: req.body.idec,
                 cnpj: req.body.cnpj,

@@ -4,7 +4,7 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
-  console.log('entrou aqui')
+  // console.log('entrou aqui')
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -83,7 +83,7 @@ getIsConsultor = (req, res, next) => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "consultor") {
-          console.log('é consutor sim')
+          // console.log('é consutor sim')
           next();
           return true;
         } else {

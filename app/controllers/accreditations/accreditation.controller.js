@@ -3,6 +3,7 @@ const Accreditation = db.accreditation;
 const companyPersonRegistration = db.company_person_registration;
 const status = db.status;
 const User = db.user;
+const Op = db.Sequelize.Op;
 
 
 exports.deleteAccreditation = (req, res) => {
@@ -22,35 +23,59 @@ exports.deleteAccreditation = (req, res) => {
     });
 };
 
-exports.showAccreditations = (req, res) => {
+// exports.showAccreditations = (req, res) => {
 
-    Accreditation.findAll({
-        include: [
-            {
-                model: companyPersonRegistration
-            },
-            {
-                model: status, attributes: ['name', 'color', 'blockedForConsultor']
-            }
-        ],
-        order: [
-            ['id', 'DESC']
-        ]
-    })
-        .then(accreditations => {
-            res.status(200).send([{ accreditations }]);
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
+//     Accreditation.findAll({
+//         include: [
+//             {
+//                 model: companyPersonRegistration
+//             },
+//             {
+//                 model: status, attributes: ['name', 'color', 'blockedForConsultor']
+//             }
+//         ],
+//         order: [
+//             ['id', 'DESC']
+//         ]
+//     })
+//         .then(accreditations => {
+//             res.status(200).send([{ accreditations }]);
+//         })
+//         .catch(err => {
+//             res.status(500).send({ message: err.message });
+//         });
+// };
 
 exports.showAccreditations = async (req, res) => {
+
+    const cnpj = req.query.cnpj;
+    const idec = req.query.idec;
+    const razao_social = req.query.razao_social;
+    const id_status = req.query.id_status;
+    const dataIni = req.query.dataIni;
+    const dataFim = req.query.dataFim;
+    let whereCredenciamento = {};
+    let whereEmpresa = {};
+
+    console.log('cnpj', cnpj);
+    console.log('idec', idec);
+    console.log('razao_social', razao_social);
+    console.log('id_status', id_status);
+    console.log('dataIni', dataIni);
+    console.log('dataFim', dataFim);
+
+    if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
+    if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
+    if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+
+    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
+    if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
 
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
                 if (roles[i].name === "consultor") {
+                    console.log('consiltorrrrr')
                     Accreditation.findAll({
                         include: [
                             {
@@ -75,7 +100,8 @@ exports.showAccreditations = async (req, res) => {
                     Accreditation.findAll({
                         include: [
                             {
-                                model: companyPersonRegistration
+                                model: companyPersonRegistration,
+                                where: whereEmpresa,
                             },
                             {
                                 model: User, attributes: ['nomeUsuario']
@@ -84,6 +110,7 @@ exports.showAccreditations = async (req, res) => {
                                 model: status, attributes: ['name', 'color', 'blockedForConsultor']
                             }
                         ],
+                        where: whereCredenciamento,
                         order: [
                             ['id', 'DESC']
                         ]
@@ -98,6 +125,8 @@ exports.showAccreditations = async (req, res) => {
                 }
             }
         }).catch(err => false);
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
     });
 };
 
@@ -265,7 +294,7 @@ exports.editAccreditationAdmin = (req, res) => {
         HipercardModCredV: req.body.HipercardModCredV,
         HipercardModCred2a6ParcSJuros: req.body.HipercardModCred2a6ParcSJuros,
         HipercardModCred7a12ParcSJuros: req.body.HipercardModCred7a12ParcSJuros,
-        
+
         sfFrenteECName: req.body.sfFrenteECName || '',
         sfFrenteECDataImage: req.body.sfFrenteECDataImage || '',
         fotoAdesivoFrenteName: req.body.fotoAdesivoFrenteName || '',
@@ -279,6 +308,7 @@ exports.editAccreditationAdmin = (req, res) => {
         fotoBalcaoQROfertaName: req.body.fotoBalcaoQROfertaName || '',
         fotoBalcaoQROfertaDataImage: req.body.fotoBalcaoQROfertaDataImage || '',
         obs: req.body.obs || '',
+        audioRecordName: req.body.audioRecordName || '',
     }, {
         returning: true,
         where: {

@@ -57,13 +57,6 @@ exports.showAccreditations = async (req, res) => {
     let whereCredenciamento = {};
     let whereEmpresa = {};
 
-    // console.log('cnpj', cnpj);
-    // console.log('idec', idec);
-    // console.log('razao_social', razao_social);
-    // console.log('id_status', id_status);
-    // console.log('dataIni', dataIni);
-    // console.log('dataFim', dataFim);
-
     if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
     if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
@@ -75,7 +68,6 @@ exports.showAccreditations = async (req, res) => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
                 if (roles[i].name === "consultor") {
-                    // console.log('consiltorrrrr')
                     Accreditation.findAll({
                         include: [
                             {
@@ -132,8 +124,6 @@ exports.showAccreditations = async (req, res) => {
 
 
 exports.showAOneaccreditationsAdmin = async (req, res) => {
-
-
     Accreditation.findOne({
         include: [
             {
@@ -156,6 +146,66 @@ exports.showAOneaccreditationsAdmin = async (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
+}
+
+exports.showAccreditationsBackoffice = async (req, res) => {
+
+    const cnpj = req.query.cnpj;
+    const idec = req.query.idec;
+    const razao_social = req.query.razao_social;
+    const id_status = req.query.id_status;
+    const dataIni = req.query.dataIni;
+    const dataFim = req.query.dataFim;
+    let whereCredenciamento = {};
+    let whereEmpresa = {};
+
+    if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
+    if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
+    if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+
+    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
+    if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
+
+    User.findAll({
+        attributes: ['id'],
+        where: {
+            idBackoffice: req.userId
+        },
+    }).then(user => {
+        let arrayConsultors = []
+        for (let i = 0; i < user.length; i++) {
+            arrayConsultors.push(Number(user[i].id))
+        }
+        whereCredenciamento.consultorId = { [Op.or]: [arrayConsultors] }
+        Accreditation.findAll({
+            include: [
+                {
+                    model: companyPersonRegistration,
+                    where: whereEmpresa,
+                },
+                {
+                    model: User, attributes: ['nomeUsuario']
+                },
+                {
+                    model: status, attributes: ['name', 'color', 'blockedForConsultor']
+                }
+            ],
+            where: whereCredenciamento,
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+            .then(accreditations => {
+                res.status(200).send([{ accreditations }]);
+            })
+            .catch(err => {
+                res.status(500).send({ message: err.message });
+            });
+
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+
 }
 
 exports.showAOneaccreditations = async (req, res) => {

@@ -91,7 +91,25 @@ getIsConsultor = (req, res, next) => {
         }
       }
     });
-});
+  });
+};
+
+getIsBackoffice = (req, res, next) => {
+
+  User.findByPk(req.userId).then(user => {
+
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "backoffice") {
+          // console.log('é consutor sim')
+          next();
+          return true;
+        } else {
+          return false;
+        }
+      }
+    });
+  });
 };
 
 // TODO: validar se o usuário foi encontrado com sucesso
@@ -140,6 +158,7 @@ const authJwt = {
   isConsultor: isConsultor,
   isConsultorOrAdmin: isConsultorOrAdmin,
   accessAllUsers: accessAllUsers,
-  getIsConsultor: getIsConsultor
+  getIsConsultor: getIsConsultor,
+  getIsBackoffice: getIsBackoffice
 };
 module.exports = authJwt;

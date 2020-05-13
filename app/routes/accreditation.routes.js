@@ -30,6 +30,12 @@ module.exports = function (app) {
     controller.showAOneaccreditationsAdmin,
   );
 
+  // Rota para listar os credenciamentos dos backoffices
+  app.get(
+    "/api/accreditation-backoffice/list",
+    [authJwt.verifyToken, authJwt.getIsBackoffice],
+    controller.showAccreditationsBackoffice,
+  );
 
   // Rota para criar accreditation
   app.post(

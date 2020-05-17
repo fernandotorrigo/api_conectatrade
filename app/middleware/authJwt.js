@@ -36,7 +36,7 @@ isAdmin = (req, res, next) => {
         }
 
         res.status(403).send({
-          message: "Require Admin Role!"
+          message: "Requer perfil Admin!"
         });
         return;
       });
@@ -63,7 +63,7 @@ isConsultor = (req, res, next) => {
         }
 
         res.status(403).send({
-          message: "Require consultor Role!"
+          message: "Requer perfil consultor!"
         });
       });
     } else {
@@ -113,6 +113,29 @@ getIsBackoffice = (req, res, next) => {
 };
 
 // TODO: validar se o usuário foi encontrado com sucesso
+isBackofficeOrAdmin = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "backoffice") {
+          next();
+          return;
+        }
+
+        if (roles[i].name === "admin") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Rquer perfis de consultor ou Admin!"
+      });
+    });
+  });
+};
+
+// TODO: validar se o usuário foi encontrado com sucesso
 isConsultorOrAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
@@ -129,7 +152,7 @@ isConsultorOrAdmin = (req, res, next) => {
       }
 
       res.status(403).send({
-        message: "Require consultor or Admin Role!"
+        message: "Rquer perfis de consultor ou Admin!"
       });
     });
   });
@@ -157,6 +180,7 @@ const authJwt = {
   isAdmin: isAdmin,
   isConsultor: isConsultor,
   isConsultorOrAdmin: isConsultorOrAdmin,
+  isBackofficeOrAdmin: isBackofficeOrAdmin,
   accessAllUsers: accessAllUsers,
   getIsConsultor: getIsConsultor,
   getIsBackoffice: getIsBackoffice

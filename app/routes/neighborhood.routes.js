@@ -13,13 +13,13 @@ module.exports = function (app) {
   // Rota para listar neighborhood
   app.get(
     "/api/neighborhood/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showNeighborhoods
   );
 
   app.get(
     "/api/neighborhood/list/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showOneNeighborhoods
   );
 

@@ -23,29 +23,6 @@ exports.deleteAccreditation = (req, res) => {
     });
 };
 
-// exports.showAccreditations = (req, res) => {
-
-//     Accreditation.findAll({
-//         include: [
-//             {
-//                 model: companyPersonRegistration
-//             },
-//             {
-//                 model: status, attributes: ['name', 'color', 'blockedForConsultor']
-//             }
-//         ],
-//         order: [
-//             ['id', 'DESC']
-//         ]
-//     })
-//         .then(accreditations => {
-//             res.status(200).send([{ accreditations }]);
-//         })
-//         .catch(err => {
-//             res.status(500).send({ message: err.message });
-//         });
-// };
-
 exports.showAccreditations = async (req, res) => {
 
     const cnpj = req.query.cnpj;
@@ -209,8 +186,6 @@ exports.showAccreditationsBackoffice = async (req, res) => {
 }
 
 exports.showAOneaccreditations = async (req, res) => {
-
-
     Accreditation.findOne({
         include: [
             {

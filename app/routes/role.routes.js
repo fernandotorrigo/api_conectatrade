@@ -13,7 +13,7 @@ module.exports = function (app) {
   // Rota para listar neighborhood
   app.get(
     "/api/role/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showRoles
   );
 };

@@ -19,7 +19,7 @@ module.exports = function (app) {
 
   app.get(
     "/api/status/list/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showOneStatus
   );
 

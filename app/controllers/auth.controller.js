@@ -92,7 +92,7 @@ exports.signin = (req, res) => {
       var authorities = [];
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name.toUpperCase() === 'CLIENTE' || roles[i].name.toUpperCase() === 'CONSULTOR' && req.body.from === 'painelAdmin') {
+          if (roles[i].name.toUpperCase() === 'CONSULTOR' && req.body.from === 'painelAdmin') {
             return res.status(401).send({
               accessToken: null,
               message: "Login não permitido"

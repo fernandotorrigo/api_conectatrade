@@ -13,19 +13,19 @@ module.exports = function (app) {
   // Rota para listar usuário
   app.get(
     "/api/user/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showUsers
   );
 
   app.get(
     "/api/user/list/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showOneUser
   );
   // Rota para listar usuário
   app.get(
     "/api/user-backoffice/list",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isBackofficeOrAdmin],
     controller.showUsersBackoffice
   );
 

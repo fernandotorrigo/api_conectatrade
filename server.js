@@ -36,7 +36,7 @@ const Role = db.role;
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to application." });
 });
 app.use('/enviadas', express.static(__dirname  + '/uploads'));
 
@@ -47,6 +47,7 @@ require('./app/routes/role.routes')(app);
 require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);
+require('./app/routes/company_person_registration.routes')(app);
 require('./app/routes/buscaCep.routes')(app);
 require('./app/routes/buscaCnpj.routes')(app);
 require('./app/routes/upload.routes')(app);

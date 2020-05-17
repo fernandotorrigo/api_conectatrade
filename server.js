@@ -53,7 +53,7 @@ require('./app/routes/buscaCnpj.routes')(app);
 require('./app/routes/upload.routes')(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = 21061;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

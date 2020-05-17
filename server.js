@@ -15,13 +15,13 @@ app.use(cors());
 
 // parse requests of content-type - application/json
 const configBodyParser = {
-  json: {limit: '150mb', extended: true},
-  urlencoded: {limit: '150mb', extended: true}
+  json: { limit: '150mb', extended: true },
+  urlencoded: { limit: '150mb', extended: true }
 };
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // database
 const db = require("./app/models");
@@ -38,7 +38,7 @@ const Role = db.role;
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to application." });
 });
-app.use('/enviadas', express.static(__dirname  + '/uploads'));
+app.use('/enviadas', express.static(__dirname + '/uploads'));
 
 // routes
 require('./app/routes/auth.routes')(app);

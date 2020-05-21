@@ -40,12 +40,16 @@ exports.deleteUser = (req, res) => {
 
 exports.showUsers = (req, res) => {
   User.findAll({
+    attributes: {include: [
+      [db.sequelize.literal('(SELECT nomeUsuario FROM users U where U.id = users.idBackoffice)'), 'nameBackoffice'],
+      [db.sequelize.literal('(SELECT name FROM neighborhoods N where N.id = users.idBairro)'), 'nameBairro']
+    ]},
     include: [
       {
         model: Role
       }
     ],
-    order: [
+      order: [
       ['id', 'DESC']
     ],
   })

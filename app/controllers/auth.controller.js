@@ -2,11 +2,17 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
-
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const objDate = new Date();
+const fs = require('fs');
+let dia = objDate.getDate();
+let mes = objDate.getMonth() + 1;
+mes = mes < 10 ? '0' + mes : mes;
+const ano = objDate.getFullYear();
+const dataAtual = ano + '-' + mes + '-' + dia;
 
 exports.signup = (req, res) => {
 
@@ -69,6 +75,11 @@ exports.signin = (req, res) => {
     }
   })
     .then(user => {
+      console.log(user.dataDemissao);
+      if (user.dataDemissao && dataAtual >= user.dataDemissao) {
+        return res.status(401).send({ message: "Login não permitido" });
+      }
+
       if (!user) {
         return res.status(404).send({ message: "Usuário não encontrado" });
       }

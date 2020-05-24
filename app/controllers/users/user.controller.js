@@ -1,9 +1,9 @@
+var bcrypt = require("bcryptjs");
 const db = require("../../models");
 const User = db.user;
 const Role = db.role;
 const UserRole = db.user_roles;
 const Op = db.Sequelize.Op;
-
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -40,16 +40,18 @@ exports.deleteUser = (req, res) => {
 
 exports.showUsers = (req, res) => {
   User.findAll({
-    attributes: {include: [
-      [db.sequelize.literal('(SELECT nomeUsuario FROM users U where U.id = users.idBackoffice)'), 'nameBackoffice'],
-      [db.sequelize.literal('(SELECT name FROM neighborhoods N where N.id = users.idBairro)'), 'nameBairro']
-    ]},
+    attributes: {
+      include: [
+        [db.sequelize.literal('(SELECT nomeUsuario FROM users U where U.id = users.idBackoffice)'), 'nameBackoffice'],
+        [db.sequelize.literal('(SELECT name FROM neighborhoods N where N.id = users.idBairro)'), 'nameBairro']
+      ]
+    },
     include: [
       {
         model: Role
       }
     ],
-      order: [
+    order: [
       ['id', 'DESC']
     ],
   })
@@ -167,20 +169,6 @@ exports.editUser = (req, res) => {
           .catch(err => {
             res.status(500).send({ message: err.message });
           });
-
-        // .then(data => {
-        //   if (data[1] !== 0) {
-
-        //     res.status(200).send({
-        //       message: 'Usuário editado com sucesso'
-        //     });
-        //   } else {
-        //     res.status(500).send({ message: "Erro ao editar usuário" });
-        //   }
-        // })
-        // .catch(err => {
-        //   res.status(500).send({ message: err.message });
-        // });
       }
     }).catch(err => {
       res.status(500).send({ message: err.message });
@@ -192,5 +180,26 @@ exports.editUser = (req, res) => {
     });
     return;
   }
+};
+
+
+exports.editPasswordUser = (req, res) => {
+
+  console.log('adasdas')
+  User.update(
+    {
+      password: bcrypt.hashSync(req.body.password, 8)
+    }, {
+    returning: true,
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(user => {
+      res.send({ message: "Senha alterada com sucesso"});
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 

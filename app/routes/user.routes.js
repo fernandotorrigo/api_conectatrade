@@ -43,6 +43,13 @@ module.exports = function (app) {
     controller.editUser
   );
 
+  // Rota para alterar senha
+  app.put(
+    "/api/user/edit-password/:id",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.editPasswordUser
+  );
+
   // Rota para deletar usuário
   app.delete(
     "/api/user/delete",

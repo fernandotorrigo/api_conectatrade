@@ -10,11 +10,19 @@ exports.deleteAccreditation = (req, res) => {
 
     Accreditation.destroy({
         where: {
-            id: req.query.id
+            id: req.query.idCredenciamento
         }
     }).then(rowDeleted => { // rowDeleted will return number of rows deleted
         if (rowDeleted === 1) {
-            res.status(200).send({ message: 'Credenciamento deletado com sucesso' });
+            companyPersonRegistration.destroy({
+                where: {
+                    id: req.query.idEmpresa
+                }
+            }).then(rowDeleted => { // rowDeleted will return number of rows deleted
+                res.status(200).send({ message: 'Credenciamento deletado com sucesso' });
+            }).catch(err => {
+                res.status(500).send({ message: err.message });
+            });
         } else {
             res.status(200).send({ message: 'Nenhum credenciamento encontrado para deletar' });
         }

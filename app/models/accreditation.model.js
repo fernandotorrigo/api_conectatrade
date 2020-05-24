@@ -62,7 +62,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.ENUM('N', 'S')
         },
         monthlyBilling: {
-            type: Sequelize.DECIMAL(10, 2)
+            type: Sequelize.STRING
         },
         mainActiveService: {
             type: Sequelize.STRING

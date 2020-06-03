@@ -1,11 +1,3 @@
-// const company_person_registration = require("./company_person_registration.model.js")(sequelize, Sequelize);
-
-
-// // Accreditation.belongsTo(company_person_registration, {
-// //     foreignKey: 'companyPersonRegistrationId',
-// //     // as: 'Reporter'
-// // });
-
 module.exports = (sequelize, Sequelize) => {
     const Accreditation = sequelize.define("accreditations", {
         consultorId: {
@@ -49,17 +41,17 @@ module.exports = (sequelize, Sequelize) => {
         state: {
             type: Sequelize.STRING
         },
-        habilitElo: {
-            type: Sequelize.ENUM('N', 'S')
+        nome_banco: {
+            type: Sequelize.STRING
         },
-        habilitHipercard: {
-            type: Sequelize.ENUM('N', 'S')
+        agencia: {
+            type: Sequelize.STRING
         },
-        antecRav: {
-            type: Sequelize.ENUM('N', 'S')
+        tipo_conta: {
+            type: Sequelize.STRING
         },
-        antecAut: {
-            type: Sequelize.ENUM('N', 'S')
+        numero_conta: {
+            type: Sequelize.STRING
         },
         monthlyBilling: {
             type: Sequelize.STRING
@@ -67,40 +59,28 @@ module.exports = (sequelize, Sequelize) => {
         mainActiveService: {
             type: Sequelize.STRING
         },
-        visaMasterModDebV: {
+        visaModDebV: {
             type: Sequelize.STRING
         },
-        visaMasterModCredV: {
+        visaModCredV: {
             type: Sequelize.STRING
         },
-        visaMasterModCred2a6ParcSJuros: {
+        visaModCred2a6ParcSJuros: {
             type: Sequelize.STRING
         },
-        visaMasterModCred7a12ParcSJuros: {
+        visaModCred7a12ParcSJuros: {
             type: Sequelize.STRING
         },
-        EloModDebV: {
+        masterModDebV: {
             type: Sequelize.STRING
         },
-        EloModCredV: {
+        masterModCredV: {
             type: Sequelize.STRING
         },
-        EloModCred2a6ParcSJuros: {
+        masterModCred2a6ParcSJuros: {
             type: Sequelize.STRING
         },
-        EloModCred7a12ParcSJuros: {
-            type: Sequelize.STRING
-        },
-        HipercardModDebV: {
-            type: Sequelize.STRING
-        },
-        HipercardModCredV: {
-            type: Sequelize.STRING
-        },
-        HipercardModCred2a6ParcSJuros: {
-            type: Sequelize.STRING
-        },
-        HipercardModCred7a12ParcSJuros: {
+        masterModCred7a12ParcSJuros: {
             type: Sequelize.STRING
         },
         sfFrenteECName: {

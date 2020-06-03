@@ -75,6 +75,12 @@ exports.showAccreditations = async (req, res) => {
                         });
                 } else {
                     Accreditation.findAll({
+                        attributes: {
+                            include: [
+                                [db.sequelize.literal('(SELECT B.nomeUsuario FROM users U INNER JOIN users B ON B.id = U.idBackoffice where U.id = accreditations.consultorId)'), 'nameBackoffice'],
+                                [db.sequelize.literal('(SELECT N.name FROM users U INNER JOIN neighborhoods N ON N.id = U.idBairro where U.id = accreditations.consultorId)'), 'nameBairro'],
+                            ]
+                        },
                         include: [
                             {
                                 model: companyPersonRegistration,
@@ -135,6 +141,22 @@ exports.showAOneaccreditationsAdmin = async (req, res) => {
 
 exports.showAccreditationsBackoffice = async (req, res) => {
 
+    // const cnpj = req.query.cnpj;
+    // const idec = req.query.idec;
+    // const razao_social = req.query.razao_social;
+    // const id_status = req.query.id_status;
+    // const dataIni = req.query.dataIni;
+    // const dataFim = req.query.dataFim;
+    // let whereCredenciamento = {};
+    // let whereEmpresa = {};
+
+    // if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
+    // if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
+    // if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+
+    // if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
+    // if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
+
     const cnpj = req.query.cnpj;
     const idec = req.query.idec;
     const razao_social = req.query.razao_social;
@@ -149,7 +171,16 @@ exports.showAccreditationsBackoffice = async (req, res) => {
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
 
     if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
-    if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
+    if (id_status && id_status !== 'null') {
+        if (Array.isArray(id_status)) {
+            let arrayStatus = id_status.map(x => parseInt(x));
+            whereCredenciamento.accreditationsStatusId = { [Op.in]: arrayStatus }
+
+        } else {
+            whereCredenciamento.accreditationsStatusId = { [Op.in]: [parseInt(id_status)] }
+        }
+        // console.log('accreditationsStatusId', whereCredenciamento.accreditationsStatusId);
+    }
 
     User.findAll({
         attributes: ['id'],
@@ -161,6 +192,7 @@ exports.showAccreditationsBackoffice = async (req, res) => {
         for (let i = 0; i < user.length; i++) {
             arrayConsultors.push(Number(user[i].id))
         }
+
         whereCredenciamento.consultorId = { [Op.or]: [arrayConsultors] }
         Accreditation.findAll({
             include: [
@@ -233,25 +265,22 @@ exports.editAccreditation = (req, res) => {
         city: req.body.city,
         state: req.body.state,
 
-        habilitElo: req.body.habilitElo,
-        habilitHipercard: req.body.habilitHipercard,
-        antecRav: req.body.antecRav,
-        antecAut: req.body.antecAut,
+        nome_banco: req.body.nome_banco,
+        agencia: req.body.agencia,
+        tipo_conta: req.body.tipo_conta,
+        numero_conta: req.body.numero_conta,
         monthlyBilling: req.body.monthlyBilling,
         mainActiveService: req.body.mainActiveService,
 
-        visaMasterModDebV: req.body.visaMasterModDebV,
-        visaMasterModCredV: req.body.visaMasterModCredV,
-        visaMasterModCred2a6ParcSJuros: req.body.visaMasterModCred2a6ParcSJuros,
-        visaMasterModCred7a12ParcSJuros: req.body.visaMasterModCred7a12ParcSJuros,
-        EloModDebV: req.body.EloModDebV,
-        EloModCredV: req.body.EloModCredV,
-        EloModCred2a6ParcSJuros: req.body.EloModCred2a6ParcSJuros,
-        EloModCred7a12ParcSJuros: req.body.EloModCred7a12ParcSJuros,
-        HipercardModDebV: req.body.HipercardModDebV,
-        HipercardModCredV: req.body.HipercardModCredV,
-        HipercardModCred2a6ParcSJuros: req.body.HipercardModCred2a6ParcSJuros,
-        HipercardModCred7a12ParcSJuros: req.body.HipercardModCred7a12ParcSJuros,
+        visaModDebV: req.body.visaModDebV,
+        visaModCredV: req.body.visaModCredV,
+        visaModCred2a6ParcSJuros: req.body.visaModCred2a6ParcSJuros,
+        visaModCred7a12ParcSJuros: req.body.visaModCred7a12ParcSJuros,
+        masterModDebV: req.body.masterModDebV,
+        masterModCredV: req.body.masterModCredV,
+        masterModCred2a6ParcSJuros: req.body.masterModCred2a6ParcSJuros,
+        masterModCred7a12ParcSJuros: req.body.masterModCred7a12ParcSJuros,
+
     }, {
         returning: true,
         where: {
@@ -260,7 +289,6 @@ exports.editAccreditation = (req, res) => {
     })
         .then(accreditation => {
 
-            // console.log(accreditation);
             companyPersonRegistration.update({
                 idec: req.body.idec,
                 cnpj: req.body.cnpj,
@@ -272,8 +300,6 @@ exports.editAccreditation = (req, res) => {
                 telefone1: req.body.telefone1,
                 telefone2: req.body.telefone2,
                 birthdate: req.body.birthdate,
-                telefone1: req.body.telefone1,
-                telefone1: req.body.telefone1,
                 email: req.body.email
             }, {
                 returning: true,
@@ -295,7 +321,6 @@ exports.editAccreditation = (req, res) => {
 
 exports.editAccreditationAdmin = (req, res) => {
 
-    // console.log('bateu onde eu queria')
     Accreditation.update({
         accreditationsStatusId: req.body.accreditationsStatusId,
         typePerson: req.body.typePerson,
@@ -308,25 +333,21 @@ exports.editAccreditationAdmin = (req, res) => {
         city: req.body.city,
         state: req.body.state,
 
-        habilitElo: req.body.habilitElo,
-        habilitHipercard: req.body.habilitHipercard,
-        antecRav: req.body.antecRav,
-        antecAut: req.body.antecAut,
+        nome_banco: req.body.nome_banco,
+        agencia: req.body.agencia,
+        tipo_conta: req.body.tipo_conta,
+        numero_conta: req.body.numero_conta,
         monthlyBilling: req.body.monthlyBilling,
         mainActiveService: req.body.mainActiveService,
 
-        visaMasterModDebV: req.body.visaMasterModDebV,
-        visaMasterModCredV: req.body.visaMasterModCredV,
-        visaMasterModCred2a6ParcSJuros: req.body.visaMasterModCred2a6ParcSJuros,
-        visaMasterModCred7a12ParcSJuros: req.body.visaMasterModCred7a12ParcSJuros,
-        EloModDebV: req.body.EloModDebV,
-        EloModCredV: req.body.EloModCredV,
-        EloModCred2a6ParcSJuros: req.body.EloModCred2a6ParcSJuros,
-        EloModCred7a12ParcSJuros: req.body.EloModCred7a12ParcSJuros,
-        HipercardModDebV: req.body.HipercardModDebV,
-        HipercardModCredV: req.body.HipercardModCredV,
-        HipercardModCred2a6ParcSJuros: req.body.HipercardModCred2a6ParcSJuros,
-        HipercardModCred7a12ParcSJuros: req.body.HipercardModCred7a12ParcSJuros,
+        visaModDebV: req.body.visaModDebV,
+        visaModCredV: req.body.visaModCredV,
+        visaModCred2a6ParcSJuros: req.body.visaModCred2a6ParcSJuros,
+        visaModCred7a12ParcSJuros: req.body.visaModCred7a12ParcSJuros,
+        masterModDebV: req.body.masterModDebV,
+        masterModCredV: req.body.masterModCredV,
+        masterModCred2a6ParcSJuros: req.body.masterModCred2a6ParcSJuros,
+        masterModCred7a12ParcSJuros: req.body.masterModCred7a12ParcSJuros,
 
         sfFrenteECName: req.body.sfFrenteECName || '',
         sfFrenteECDataImage: req.body.sfFrenteECDataImage || '',
@@ -350,7 +371,6 @@ exports.editAccreditationAdmin = (req, res) => {
     })
         .then(accreditation => {
 
-            // console.log(accreditation);
             companyPersonRegistration.update({
                 idec: req.body.idec,
                 cnpj: req.body.cnpj,
@@ -362,8 +382,6 @@ exports.editAccreditationAdmin = (req, res) => {
                 telefone1: req.body.telefone1,
                 telefone2: req.body.telefone2,
                 birthdate: req.body.birthdate,
-                telefone1: req.body.telefone1,
-                telefone1: req.body.telefone1,
                 email: req.body.email
             }, {
                 returning: true,
@@ -397,8 +415,6 @@ exports.newAccreditation = (req, res) => {
         telefone1: req.body.telefone1 || '',
         telefone2: req.body.telefone2 || '',
         birthdate: req.body.birthdate || '',
-        telefone1: req.body.telefone1 || '',
-        telefone1: req.body.telefone1 || '',
         email: req.body.email || ''
     })
         .then(dataCompanyPerson => {
@@ -416,25 +432,22 @@ exports.newAccreditation = (req, res) => {
                 city: req.body.city || '',
                 state: req.body.state || '',
 
-                habilitElo: req.body.habilitElo || 'N',
-                habilitHipercard: req.body.habilitHipercard || 'N',
-                antecRav: req.body.antecRav || 'N',
-                antecAut: req.body.antecAut || 'N',
+                nome_banco: req.body.nome_banco || '',
+                agencia: req.body.agencia || '',
+                tipo_conta: req.body.tipo_conta || '',
+                numero_conta: req.body.numero_conta || '',
+
                 monthlyBilling: req.body.monthlyBilling || 0.00,
                 mainActiveService: req.body.mainActiveService || 'PicPay',
 
-                visaMasterModDebV: req.body.visaMasterModDebV || '',
-                visaMasterModCredV: req.body.visaMasterModCredV || '',
-                visaMasterModCred2a6ParcSJuros: req.body.visaMasterModCred2a6ParcSJuros || '',
-                visaMasterModCred7a12ParcSJuros: req.body.visaMasterModCred7a12ParcSJuros || '',
-                EloModDebV: req.body.EloModDebV || '',
-                EloModCredV: req.body.EloModCredV || '',
-                EloModCred2a6ParcSJuros: req.body.EloModCred2a6ParcSJuros || '',
-                EloModCred7a12ParcSJuros: req.body.EloModCred7a12ParcSJuros || '',
-                HipercardModDebV: req.body.HipercardModDebV || '',
-                HipercardModCredV: req.body.HipercardModCredV || '',
-                HipercardModCred2a6ParcSJuros: req.body.HipercardModCred2a6ParcSJuros || '',
-                HipercardModCred7a12ParcSJuros: req.body.HipercardModCred7a12ParcSJuros || '',
+                visaModDebV: req.body.visaModDebV || '',
+                visaModCredV: req.body.visaModCredV || '',
+                visaModCred2a6ParcSJuros: req.body.visaModCred2a6ParcSJuros || '',
+                visaModCred7a12ParcSJuros: req.body.visaModCred7a12ParcSJuros || '',
+                masterModDebV: req.body.masterModDebV || '',
+                masterModCredV: req.body.masterModCredV || '',
+                masterModCred2a6ParcSJuros: req.body.masterModCred2a6ParcSJuros || '',
+                masterModCred7a12ParcSJuros: req.body.masterModCred7a12ParcSJuros || '',
 
                 sfFrenteECName: req.body.sfFrenteECName || '',
                 sfFrenteECDataImage: req.body.sfFrenteECDataImage || '',

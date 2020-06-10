@@ -4,7 +4,7 @@ const multipart = require("connect-multiparty");
 const objDate = new Date();
 
 const fs = require('fs');
-const pasta = './uploads/' + objDate.getDate() + '-' + objDate.getMonth() + '-' + objDate.getFullYear();
+const pasta = './uploads/' + objDate.getDate() + '-' + Number(objDate.getMonth() + 1) + '-' + objDate.getFullYear();
 //Verifica se não existe
 if (!fs.existsSync(pasta)) {
   //Efetua a criação do diretório

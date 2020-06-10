@@ -1,9 +1,15 @@
-exports.uploadArquivo = (req, res) => {
+const jimp = require("jimp");
+
+exports.uploadArquivo = async (req, res) => {
     const files = req.files;
-    // console.log(req);
     if (files) {
+
+        const image = await jimp.read(files.file.path);
+        image.resize(800, jimp.AUTO);
+        await image.writeAsync(files.file.path);
+
         res.status(200).send(files);
     } else {
-        res.status(500).send({ message: 'Erro ao fazer upload'});
+        res.status(500).send({ message: 'Erro ao fazer upload' });
     }
 };

@@ -5,7 +5,7 @@ exports.uploadArquivo = async (req, res) => {
     if (files) {
 
         const image = await jimp.read(files.file.path);
-        image.resize(800, jimp.AUTO);
+        image.resize(1200, jimp.AUTO);
         await image.writeAsync(files.file.path);
 
         res.status(200).send(files);

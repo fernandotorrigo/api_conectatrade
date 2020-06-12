@@ -265,10 +265,10 @@ exports.editAccreditation = (req, res) => {
         city: req.body.city,
         state: req.body.state,
 
-        nome_banco: req.body.nome_banco,
-        agencia: req.body.agencia,
-        tipo_conta: req.body.tipo_conta,
-        numero_conta: req.body.numero_conta,
+        nome_banco: '',
+        agencia: '',
+        tipo_conta: '',
+        numero_conta: '',
         monthlyBilling: req.body.monthlyBilling,
         mainActiveService: req.body.mainActiveService,
 
@@ -333,10 +333,10 @@ exports.editAccreditationAdmin = (req, res) => {
         city: req.body.city,
         state: req.body.state,
 
-        nome_banco: req.body.nome_banco,
-        agencia: req.body.agencia,
-        tipo_conta: req.body.tipo_conta,
-        numero_conta: req.body.numero_conta,
+        nome_banco: '',
+        agencia: '',
+        tipo_conta: '',
+        numero_conta: '',
         monthlyBilling: req.body.monthlyBilling,
         mainActiveService: req.body.mainActiveService,
 
@@ -432,10 +432,10 @@ exports.newAccreditation = (req, res) => {
                 city: req.body.city || '',
                 state: req.body.state || '',
 
-                nome_banco: req.body.nome_banco || '',
-                agencia: req.body.agencia || '',
-                tipo_conta: req.body.tipo_conta || '',
-                numero_conta: req.body.numero_conta || '',
+                nome_banco: '',
+                agencia: '',
+                tipo_conta: '',
+                numero_conta: '',
 
                 monthlyBilling: req.body.monthlyBilling || 0.00,
                 mainActiveService: req.body.mainActiveService || 'PicPay',

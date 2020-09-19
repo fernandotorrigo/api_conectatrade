@@ -37,6 +37,7 @@ exports.showAccreditations = async (req, res) => {
     const idec = req.query.idec;
     const razao_social = req.query.razao_social;
     const id_status = req.query.id_status;
+    const faixa = req.query.faixa;
     const dataIni = req.query.dataIni;
     const dataFim = req.query.dataFim;
     let whereCredenciamento = {};
@@ -45,6 +46,7 @@ exports.showAccreditations = async (req, res) => {
     if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
     if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+    if (faixa && faixa !== 'null') whereEmpresa.faixa = { [Op.like]: '%' + faixa + '%' }
 
     if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
     if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
@@ -161,6 +163,7 @@ exports.showAccreditationsBackoffice = async (req, res) => {
     const idec = req.query.idec;
     const razao_social = req.query.razao_social;
     const id_status = req.query.id_status;
+    const faixa = req.query.faixa;
     const dataIni = req.query.dataIni;
     const dataFim = req.query.dataFim;
     let whereCredenciamento = {};
@@ -169,6 +172,7 @@ exports.showAccreditationsBackoffice = async (req, res) => {
     if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
     if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+    if (faixa && faixa !== 'null') whereEmpresa.faixa = { [Op.like]: '%' + faixa + '%' }
 
     if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
     if (id_status && id_status !== 'null') {

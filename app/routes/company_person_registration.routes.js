@@ -17,4 +17,10 @@ module.exports = function (app) {
     controller.showAOneCompanny,
   );
 
+  app.get(
+    "/api/company/faixa",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.showFaixaCompanny,
+  );
+
 };

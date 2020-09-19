@@ -14,3 +14,13 @@ exports.showAOneCompanny = async (req, res) => {
             res.status(500).send({ message: err.message });
         });
 }
+
+exports.showFaixaCompanny = async (req, res) => {
+    db.sequelize.query('SELECT faixa FROM company_person_registrations where faixa <> "" GROUP BY faixa',
+        { type: db.sequelize.QueryTypes.SELECT }
+    ).then(function (faixa) {
+        res.status(200).send([{ faixa }]);
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+}

@@ -33,6 +33,12 @@ module.exports = (sequelize, Sequelize) => {
         email: {
             type: Sequelize.STRING
         },
+        faixa: {
+            type: Sequelize.STRING
+        },
+        faturamento: {
+            type: Sequelize.STRING
+        }
     });
 
     return company_person_registration;

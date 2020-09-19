@@ -31,6 +31,8 @@ db.accreditation = require("./accreditation.model.js")(sequelize, Sequelize);
 db.status = require("./accreditation_status.model.js")(sequelize, Sequelize);
 db.company_person_registration = require("./company_person_registration.model.js")(sequelize, Sequelize);
 db.user_roles = require("./user_roles.model.js")(sequelize, Sequelize);
+db.visit = require("./visit.model.js")(sequelize, Sequelize);
+db.revisit_client = require("./revisit_client.model.js")(sequelize, Sequelize);
 
 // Relacionamento de usuário com roles
 db.role.belongsToMany(db.user, {

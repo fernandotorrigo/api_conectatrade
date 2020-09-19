@@ -48,6 +48,8 @@ require('./app/routes/neighborhood.routes')(app);
 require('./app/routes/status.routes')(app);
 require('./app/routes/accreditation.routes')(app);
 require('./app/routes/company_person_registration.routes')(app);
+require('./app/routes/visits.routes')(app);
+require('./app/routes/revisit_client.routes')(app);
 require('./app/routes/buscaCep.routes')(app);
 require('./app/routes/buscaCnpj.routes')(app);
 require('./app/routes/upload.routes')(app);

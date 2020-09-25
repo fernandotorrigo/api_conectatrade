@@ -39,10 +39,13 @@ module.exports = (sequelize, Sequelize) => {
         state: {
             type: Sequelize.STRING
         },
-        success: {
-            type: Sequelize.ENUM('S', 'N')
+        status_visita: {
+            type: Sequelize.STRING
         },
         reason: {
+            type: Sequelize.STRING
+        },
+        sub_reason: {
             type: Sequelize.STRING
         },
         obs: {

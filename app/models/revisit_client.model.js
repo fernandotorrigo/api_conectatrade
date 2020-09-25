@@ -12,10 +12,13 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             require: true
         },
-        success: {
-            type: Sequelize.ENUM('S', 'N')
+        status_revisita: {
+            type: Sequelize.STRING
         },
         reason: {
+            type: Sequelize.STRING
+        },
+        valor: {
             type: Sequelize.STRING
         },
         obs: {

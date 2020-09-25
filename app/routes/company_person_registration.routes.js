@@ -14,13 +14,19 @@ module.exports = function (app) {
   app.get(
     "/api/company/list/:cnpj",
     [authJwt.verifyToken, authJwt.accessAllUsers],
-    controller.showAOneCompanny,
+    controller.showAOneCompanny
+  );
+
+  // Rota para buscar empresa com o mesmo cnpj
+  app.get(
+    "/api/company/search-bycnpj/:cnpj",
+    [authJwt.verifyToken, authJwt.accessAllUsers],
+    controller.showAOneCompanyByCnpj
   );
 
   app.get(
     "/api/company/faixa",
     [authJwt.verifyToken, authJwt.accessAllUsers],
-    controller.showFaixaCompanny,
+    controller.showFaixaCompanny
   );
-
 };

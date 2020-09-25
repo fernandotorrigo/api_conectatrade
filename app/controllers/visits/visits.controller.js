@@ -90,8 +90,9 @@ exports.newVisit = (req, res) => {
         neighborhoodCompany: req.body.neighborhoodCompany || '',
         city: req.body.city || '',
         state: req.body.state || '',
-        success: req.body.success || '',
+        status_visita: req.body.success || '',
         reason: req.body.reason || '',
+        sub_reason: req.body.sub_reason || '',
         obs: req.body.obs || ''
     })
         .then(visits => {

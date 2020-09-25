@@ -81,7 +81,8 @@ exports.newRevisitClient = (req, res) => {
     RevisitClient.create({
         consultorId: req.body.consultorId || '',
         companyPersonRegistrationId: req.body.companyPersonRegistrationId || '',
-        success: req.body.success || 'n',
+        status_revisita: req.body.status_revisita || '',
+        valor: req.body.valor || '',
         reason: req.body.reason || '',
         obs: req.body.obs || ''
     })

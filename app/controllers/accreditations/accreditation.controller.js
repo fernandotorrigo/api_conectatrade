@@ -56,9 +56,15 @@ exports.showAccreditations = async (req, res) => {
             for (let i = 0; i < roles.length; i++) {
                 if (roles[i].name === "consultor") {
                     Accreditation.findAll({
+                        attributes: {
+                            include: [
+                                [db.sequelize.literal('(SELECT R.companyPersonRegistrationId FROM revisit_clients R where R.companyPersonRegistrationId = accreditations.companyPersonRegistrationId LIMIT 1)'), 'revisita'],
+                            ]
+                        },
                         include: [
                             {
-                                model: companyPersonRegistration
+                                model: companyPersonRegistration,
+                                where: whereEmpresa,
                             },
                             {
                                 model: status, attributes: ['name', 'color', 'blockedForConsultor']
@@ -79,6 +85,7 @@ exports.showAccreditations = async (req, res) => {
                     Accreditation.findAll({
                         attributes: {
                             include: [
+                                [db.sequelize.literal('(SELECT R.companyPersonRegistrationId FROM revisit_clients R where R.companyPersonRegistrationId = accreditations.companyPersonRegistrationId LIMIT 1)'), 'revisita'],
                                 [db.sequelize.literal('(SELECT B.nomeUsuario FROM users U INNER JOIN users B ON B.id = U.idBackoffice where U.id = accreditations.consultorId)'), 'nameBackoffice'],
                                 [db.sequelize.literal('(SELECT N.name FROM users U INNER JOIN neighborhoods N ON N.id = U.idBairro where U.id = accreditations.consultorId)'), 'nameBairro'],
                             ]
@@ -143,22 +150,6 @@ exports.showAOneaccreditationsAdmin = async (req, res) => {
 
 exports.showAccreditationsBackoffice = async (req, res) => {
 
-    // const cnpj = req.query.cnpj;
-    // const idec = req.query.idec;
-    // const razao_social = req.query.razao_social;
-    // const id_status = req.query.id_status;
-    // const dataIni = req.query.dataIni;
-    // const dataFim = req.query.dataFim;
-    // let whereCredenciamento = {};
-    // let whereEmpresa = {};
-
-    // if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
-    // if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
-    // if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
-
-    // if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
-    // if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
-
     const cnpj = req.query.cnpj;
     const idec = req.query.idec;
     const razao_social = req.query.razao_social;
@@ -183,7 +174,6 @@ exports.showAccreditationsBackoffice = async (req, res) => {
         } else {
             whereCredenciamento.accreditationsStatusId = { [Op.in]: [parseInt(id_status)] }
         }
-        // console.log('accreditationsStatusId', whereCredenciamento.accreditationsStatusId);
     }
 
     User.findAll({
@@ -231,6 +221,11 @@ exports.showAccreditationsBackoffice = async (req, res) => {
 
 exports.showAOneaccreditations = async (req, res) => {
     Accreditation.findOne({
+        attributes: {
+            include: [
+                [db.sequelize.literal('(SELECT R.companyPersonRegistrationId FROM revisit_clients R where R.companyPersonRegistrationId = accreditations.companyPersonRegistrationId LIMIT 1)'), 'revisita']
+            ]
+        },
         include: [
             {
                 model: companyPersonRegistration
@@ -241,7 +236,7 @@ exports.showAOneaccreditations = async (req, res) => {
         ],
         where: {
             id: req.params.id,
-            consultorId: req.userId
+            // consultorId: req.userId
         },
         order: [
             ['id', 'DESC']

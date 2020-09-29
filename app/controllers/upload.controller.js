@@ -20,19 +20,19 @@ exports.uploadArquivo = async (req, res) => {
 exports.uploadArquivoCsv = async (req, res) => {
     const files = req.files;
     if (files) {
-        console.log(req.files.fileKey.path)
+        // console.log(req.files.fileKey.path)
 
         let query = 'UPDATE company_person_registrations C JOIN ( ';
 
         await csv()
             .fromFile('./' + req.files.fileKey.path)
             .then(function (jsonArrayObj) {
-                console.log('TAM:', jsonArrayObj.length)
-                console.log(jsonArrayObj)
+                // console.log('TAM:', jsonArrayObj.length)
+                // console.log(jsonArrayObj)
                 jsonArrayObj.forEach((element, index) => {
                     if (element.cnpj && element.faixa && element.faturamento) {
                         query += " SELECT '" + element.cnpj + "' AS cnpj, '" + element.faixa + "' AS new_faixa, '" + element.faturamento + "' AS new_faturamento ";
-                        console.log('INDEX:', index);
+                        // console.log('INDEX:', index);
                         if (jsonArrayObj.length != Number(index + 1)) {
                             query += " UNION ALL ";
                         }
@@ -45,7 +45,7 @@ exports.uploadArquivoCsv = async (req, res) => {
 
         query += ') VALS ON C.cnpj = VALS.cnpj SET faixa = new_faixa, faturamento = new_faturamento';
 
-        console.log(query);
+        // console.log(query);
         await db.sequelize.query(query,
             { type: db.sequelize.QueryTypes.UPDATE }
         ).then(function (importacao) {

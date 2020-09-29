@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const RevisitClient = sequelize.define("revisit client", {
+    const RevisitClient = sequelize.define("revisit_client", {
         companyPersonRegistrationId: {
             type: Sequelize.INTEGER,
             references: { model: 'company_person_registrations', key: 'id' },

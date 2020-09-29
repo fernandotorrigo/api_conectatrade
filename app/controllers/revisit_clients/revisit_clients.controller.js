@@ -1,31 +1,40 @@
 const db = require("../../models");
 const RevisitClient = db.revisit_client;
-
-// exports.deleteNeighborhood = (req, res) => {
-
-//     Neighborhood.destroy({
-//         where: {
-//             id: req.query.id
-//         }
-//     }).then(rowDeleted => { // rowDeleted will return number of rows deleted
-//         if (rowDeleted === 1) {
-//             res.status(200).send({ message: 'Bairro deletado com sucesso' });
-//         } else {
-//             res.status(200).send({ message: 'Nenhum bairro encontrado para deletar' });
-//         }
-//     }).catch(err => {
-//         res.status(500).send({ message: err.message });
-//     });
-// };
+const Op = db.Sequelize.Op;
+const User = db.user;
+const companyPersonRegistration = db.company_person_registration;
 
 exports.showRevisitClients = (req, res) => {
+    const cnpj = req.query.cnpj;
+    const razao_social = req.query.razao_social;
+    const statusVisita = req.query.statusVisita;
+    const dataIni = req.query.dataIni;
+    const dataFim = req.query.dataFim;
+    let whereRevisits = {};
+    let whereEmpresa = {};
+
+    if (cnpj && cnpj !== 'null') whereEmpresa.cnpj = { [Op.like]: '%' + cnpj + '%' }
+    if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
+    if (dataIni && dataIni !== 'null') whereRevisits.createdAt = { [Op.between]: [dataIni, dataFim] }
+
     RevisitClient.findAll({
+        include: [
+            {
+                model: User, attributes: ['nomeUsuario']
+            },
+            {
+                model: companyPersonRegistration,
+                where: whereEmpresa,
+            },
+
+        ],
+        where: whereRevisits,
         order: [
             ['id', 'DESC']
         ],
     })
-        .then(visits => {
-            res.status(200).send([{ visits }]);
+        .then(revisits => {
+            res.status(200).send([{ revisits }]);
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
@@ -47,37 +56,7 @@ exports.showOneRevisit = (req, res) => {
         });
 };
 
-// exports.editNeighborhood = (req, res) => {
-//     // Neighborhood
-//     Neighborhood.update(
-//         {
-//             cep: req.body.cep,
-//             name: req.body.name,
-//             city: req.body.city,
-//             state: req.body.state,
-//         }, {
-//         returning: true,
-//         where: {
-//             id: req.params.id
-//         }
-//     })
-//         .then(data => {
-//             if (data[1] !== 0) {
-//                 res.status(200).send({
-//                     message: 'Bairro editado com sucesso'
-//                 });
-//             } else {
-//                 res.status(500).send({ message: "Erro ao editar neighborhood" });
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send({ message: err.message });
-//         });
-// };
-
-
 exports.newRevisitClient = (req, res) => {
-    console.log("bateu")
     RevisitClient.create({
         consultorId: req.body.consultorId || '',
         companyPersonRegistrationId: req.body.companyPersonRegistrationId || '',

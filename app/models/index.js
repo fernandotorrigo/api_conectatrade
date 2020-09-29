@@ -57,6 +57,15 @@ db.accreditation.belongsTo(db.company_person_registration, {
 db.accreditation.belongsTo(db.status, {
   foreignKey: 'accreditationsStatusId',
 });
+db.visit.belongsTo(db.user, {
+  foreignKey: 'consultorId',
+});
+db.revisit_client.belongsTo(db.user, {
+  foreignKey: 'consultorId',
+});
+db.revisit_client.belongsTo(db.company_person_registration, {
+  foreignKey: 'companyPersonRegistrationId',
+});
 
 db.ROLES = ["consultor", "backoffice", "admin", "cliente"];
 

@@ -1,5 +1,7 @@
 const db = require("../../models");
 const Visit = db.visit;
+const Op = db.Sequelize.Op;
+const User = db.user;
 
 // exports.deleteNeighborhood = (req, res) => {
 
@@ -19,7 +21,25 @@ const Visit = db.visit;
 // };
 
 exports.showVisits = (req, res) => {
+    const cnpj = req.query.cnpj;
+    const razao_social = req.query.razao_social;
+    const statusVisita = req.query.statusVisita;
+    const dataIni = req.query.dataIni;
+    const dataFim = req.query.dataFim;
+    let whereVisits = {};
+
+    if (cnpj && cnpj !== 'null') whereVisits.cnpj = { [Op.like]: '%' + cnpj + '%' }
+    if (razao_social && razao_social !== 'null') whereVisits.razao_social = { [Op.like]: '%' + razao_social + '%' }
+    if (dataIni && dataIni !== 'null') whereVisits.createdAt = { [Op.between]: [dataIni, dataFim] }
+
     Visit.findAll({
+        include: [
+            {
+                model: User, attributes: ['nomeUsuario']
+            },
+
+        ],
+        where: whereVisits,
         order: [
             ['id', 'DESC']
         ],

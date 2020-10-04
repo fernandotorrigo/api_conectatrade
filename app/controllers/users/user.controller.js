@@ -52,7 +52,7 @@ exports.showUsers = (req, res) => {
       }
     ],
     order: [
-      ['id', 'DESC']
+      ['nomeUsuario', 'ASC']
     ],
   })
     .then(users => {

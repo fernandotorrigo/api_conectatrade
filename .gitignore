@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
 uploads/
+serverHTTPS.js
+serverORIGINAL.js
+app/config/db.config.js

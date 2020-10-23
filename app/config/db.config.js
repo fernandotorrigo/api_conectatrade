@@ -15,9 +15,9 @@ module.exports = {
 
 // module.exports = {
 //   HOST: "mysql.conectatradesys.com.br",
-//   USER: "conectatradesy",
+//   USER: "conectatradesy01",
 //   PASSWORD: "V3l0c1d4d3",
-//   DB: "conectatradesy",
+//   DB: "conectatradesy01",
 //   dialect: "mysql",
 //   pool: {
 //     max: 5,

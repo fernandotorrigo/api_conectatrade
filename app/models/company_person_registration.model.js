@@ -28,7 +28,8 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         birthdate: {
-            type: Sequelize.DATEONLY
+            type: Sequelize.DATEONLY,
+            allowNull: true
         },
         email: {
             type: Sequelize.STRING

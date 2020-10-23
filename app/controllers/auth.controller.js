@@ -76,8 +76,10 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       console.log(user.dataDemissao);
-      if (user.dataDemissao && dataAtual >= user.dataDemissao) {
-        return res.status(401).send({ message: "Login não permitido" });
+      if(user.dataDemissao){
+        if (user.dataDemissao && dataAtual >= user.dataDemissao) {
+          return res.status(401).send({ message: "Login não permitido" });
+        }
       }
 
       if (!user) {

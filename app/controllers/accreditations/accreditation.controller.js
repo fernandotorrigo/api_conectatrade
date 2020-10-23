@@ -47,8 +47,9 @@ exports.showAccreditations = async (req, res) => {
     if (idec && idec !== 'null') whereEmpresa.idec = { [Op.like]: '%' + idec + '%' }
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
     if (faixa && faixa !== 'null') whereEmpresa.faixa = { [Op.like]: '%' + faixa + '%' }
+    console.log(123, dataFim)
 
-    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
+    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim + ' 23:59:59'] }
     if (id_status && id_status !== 'null') whereCredenciamento.accreditationsStatusId = { [Op.in]: [id_status] }
 
     User.findByPk(req.userId).then(user => {
@@ -165,7 +166,7 @@ exports.showAccreditationsBackoffice = async (req, res) => {
     if (razao_social && razao_social !== 'null') whereEmpresa.razao_social = { [Op.like]: '%' + razao_social + '%' }
     if (faixa && faixa !== 'null') whereEmpresa.faixa = { [Op.like]: '%' + faixa + '%' }
 
-    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim] }
+    if (dataIni && dataIni !== 'null') whereCredenciamento.createdAt = { [Op.between]: [dataIni, dataFim + ' 23:59:59'] }
     if (id_status && id_status !== 'null') {
         if (Array.isArray(id_status)) {
             let arrayStatus = id_status.map(x => parseInt(x));
@@ -380,7 +381,6 @@ exports.editAccreditationAdmin = (req, res) => {
                 name_person: req.body.name_person,
                 telefone1: req.body.telefone1,
                 telefone2: req.body.telefone2,
-                birthdate: req.body.birthdate,
                 email: req.body.email
             }, {
                 returning: true,

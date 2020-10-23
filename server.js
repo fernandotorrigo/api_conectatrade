@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
+const moment = require("moment");
 
 const app = express();
 
@@ -36,7 +37,21 @@ const Role = db.role;
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to application." });
+  const now = moment().format("DD-MM-yyyy HH-mm");
+  var data = new Date();
+
+  var dia = data.getDate();           // 1-31
+  var mes = data.getMonth();          // 0-11 (zero=janeiro)
+  var ano4 = data.getFullYear();       // 4 dígitos
+  var hora = data.getHours();          // 0-23
+  var min = data.getMinutes();        // 0-59
+  var seg = data.getSeconds();        // 0-59
+
+  var str_data = dia + '-' + (mes + 1) + '-' + ano4;
+  var str_hora = hora + ':' + min + ':' + seg;
+
+  console.log('Hoje é ' + str_data + ' às ' + str_hora);
+  res.json({ message: "Welcome to application.--->" + now });
 });
 app.use('/enviadas', express.static(__dirname + '/uploads'));
 
@@ -55,7 +70,7 @@ require('./app/routes/buscaCnpj.routes')(app);
 require('./app/routes/upload.routes')(app);
 
 // set port, listen for requests
-const PORT = 21061;
+const PORT = 21071;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

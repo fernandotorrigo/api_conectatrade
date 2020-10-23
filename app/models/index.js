@@ -9,7 +9,17 @@ const sequelize = new Sequelize(
     host: config.HOST,
     dialect: config.dialect,
     operatorsAliases: false,
-
+    dialectOptions: {
+      useUTC: false, //for reading from database
+      dateStrings: true,
+      typeCast: function (field, next) { // for reading from database
+        if (field.type === 'DATETIME') {
+          return field.string()
+        }
+          return next()
+        },
+    },
+    timezone: '-03:00',
     pool: {
       max: config.pool.max,
       min: config.pool.min,

@@ -48,6 +48,7 @@ exports.newUploadArquivoFotos = async (req, res) => {
     var formidable = require('formidable');
     var form = new formidable.IncomingForm();
     var fs = require('fs');
+    var mv = require('mv');
     const objDate = new Date();
 
     var dia = objDate.getDate();           // 1-31
@@ -73,7 +74,7 @@ exports.newUploadArquivoFotos = async (req, res) => {
 
         var oldpath = files.file.path;
         var newpath = pasta + '/' + str_hora + '-' + files.file.name;
-        fs.rename(oldpath, newpath, async (err) => {
+        mv(oldpath, newpath, async (err) => {
             if (err) {
                 res.status(500).send({ message: 'Erro ao fazer upload' + err });
             } else {
@@ -102,6 +103,7 @@ exports.newUploadArquivoCsv = async (req, res) => {
     var formidable = require('formidable');
     var form = new formidable.IncomingForm();
     var fs = require('fs');
+    var mv = require('mv');
     const objDate = new Date();
 
     var dia = objDate.getDate();           // 1-31
@@ -128,7 +130,7 @@ exports.newUploadArquivoCsv = async (req, res) => {
         console.log(12222, JSON.stringify(files))
         var oldpath = files.fileKey.path;
         var newpath = pasta + '/' + str_hora + '-' + files.fileKey.name;
-        fs.rename(oldpath, newpath, async (err) => {
+        mv(oldpath, newpath, async (err) => {
             if (err) {
                 res.status(500).send({ message: 'Erro ao fazer upload' + err });
             } else {
